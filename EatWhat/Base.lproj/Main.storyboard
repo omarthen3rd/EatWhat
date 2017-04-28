@@ -211,15 +211,15 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" rowHeight="69" id="nDr-5i-Ofa" customClass="PickerCell" customModule="EatWhat" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="Cell" rowHeight="69" id="nDr-5i-Ofa" customClass="UIPickerCell" customModule="EatWhat" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="375" height="69"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nDr-5i-Ofa" id="10P-AZ-bnw">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="69"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="68.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Default App" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aNr-dy-Y0x">
-                                            <rect key="frame" x="16" y="23.5" width="101" height="23"/>
+                                            <rect key="frame" x="16" y="24" width="283" height="23"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                             <nil key="highlightedColor"/>
@@ -229,16 +229,16 @@
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         </imageView>
                                         <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="w27-0g-0u0">
-                                            <rect key="frame" x="0.0" y="68" width="375" height="150"/>
+                                            <rect key="frame" x="-1" y="68" width="375" height="150"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                         </pickerView>
                                     </subviews>
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <connections>
-                                    <outlet property="cellLabel" destination="aNr-dy-Y0x" id="c7E-xK-p59"/>
-                                    <outlet property="imageInCell" destination="6x5-Pt-eL4" id="7k0-zo-RFB"/>
-                                    <outlet property="picker" destination="w27-0g-0u0" id="AQ6-W6-z7O"/>
+                                    <outlet property="appIcon" destination="6x5-Pt-eL4" id="KV4-fy-9OK"/>
+                                    <outlet property="label" destination="aNr-dy-Y0x" id="Czv-eZ-fFj"/>
+                                    <outlet property="picker" destination="w27-0g-0u0" id="TCr-2Z-xVk"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>

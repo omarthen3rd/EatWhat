@@ -31,16 +31,14 @@ class RestaurantCard: UIView, UIWebViewDelegate {
     var didAnimateView = false
     var didShowReviewView = false
     var originalY: CGFloat = 0
-    let defaultMaps = UserDefaults.standard
-    let defaultBrowser = UserDefaults.standard
-
+    let defaults = UserDefaults.standard
+    
     let phoneNumberKit = PhoneNumberKit()
     
     @IBOutlet var contentView: UIView!
     
     @IBOutlet var doneButton: UIButton!
     @IBAction func doneAction(_ sender: Any) {
-        print("rant his")
         showReviewsView()
     }
     @IBOutlet var reviewVisualView: UIVisualEffectView!
@@ -106,20 +104,31 @@ class RestaurantCard: UIView, UIWebViewDelegate {
                 
             }
             
-            if defaultMaps.object(forKey: "defaultMaps") == nil {
+            if defaults.object(forKey: "defaultMaps") == nil {
                 
-                defaultMaps.set("Apple Maps", forKey: "defaultMaps")
+                defaults.set("Apple Maps", forKey: "defaultMaps")
                 
             } else {
                 
-                let mapsImageName = defaultMaps.object(forKey: "defaultMaps") as! String
+                let mapsImageName = defaults.object(forKey: "defaultMaps") as! String
                 restaurantMap.setImage(UIImage(named: mapsImageName), for: .normal)
                 
             }
             
-            if defaultBrowser.object(forKey: "defaultBrowser") == nil {
+            if defaults.object(forKey: "defaultBrowser") == nil {
                 
-                defaultBrowser.set("Safari", forKey: "defaultBrowser")
+                defaults.set("Safari", forKey: "defaultBrowser")
+                
+            } else {
+                
+                let browserImageName = defaults.object(forKey: "defaultBrowser") as! String
+                restaurantWebsite.setImage(UIImage(named: browserImageName), for: .normal)
+                
+            }
+            
+            if defaults.object(forKey: "whichCell") == nil {
+                
+                defaults.set("Maps", forKey: "whichCell")
                 
             }
             
@@ -256,7 +265,7 @@ class RestaurantCard: UIView, UIWebViewDelegate {
     
     func openWebsite() {
         
-        if defaultBrowser.object(forKey: "defaultBrowser") == nil {
+        if defaults.object(forKey: "defaultBrowser") == nil {
             
             if let url = URL(string: restaurant.website) {
                 
@@ -273,7 +282,7 @@ class RestaurantCard: UIView, UIWebViewDelegate {
                 
             }
             
-        } else if let browserName = defaultBrowser.object(forKey: "defaultBrowser") as? String {
+        } else if let browserName = defaults.object(forKey: "defaultBrowser") as? String {
             
             if browserName == "Safari" {
                 
@@ -320,7 +329,7 @@ class RestaurantCard: UIView, UIWebViewDelegate {
         let string = "\(restaurant.address),\(restaurant.city),\(restaurant.country)"
         let addressString = string.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)
         
-        if defaultMaps.object(forKey: "defaultMaps") == nil {
+        if defaults.object(forKey: "defaultMaps") == nil {
             
             if let url = URL(string: "http://maps.apple.com/?address=\(addressString!)") {
                 
@@ -336,7 +345,7 @@ class RestaurantCard: UIView, UIWebViewDelegate {
                 })
             }
             
-        } else if let appName = defaultMaps.object(forKey: "defaultMaps") as? String {
+        } else if let appName = defaults.object(forKey: "defaultMaps") as? String {
             
             if appName == "Apple Maps" {
                 
@@ -397,7 +406,7 @@ class RestaurantCard: UIView, UIWebViewDelegate {
         
         if didAnimateView {
             
-            let mapsImageName = defaultMaps.object(forKey: "defaultMaps") as! String
+            let mapsImageName = defaults.object(forKey: "defaultMaps") as! String
             restaurantMap.setImage(UIImage(named: mapsImageName), for: .normal)
             
             UIView.animate(withDuration: 0.3) {
@@ -419,7 +428,7 @@ class RestaurantCard: UIView, UIWebViewDelegate {
             
         } else {
             
-            let mapsImageName = defaultMaps.object(forKey: "defaultMaps") as! String
+            let mapsImageName = defaults.object(forKey: "defaultMaps") as! String
             restaurantMap.setImage(UIImage(named: mapsImageName), for: .normal)
             
             UIView.animate(withDuration: 0.3) {

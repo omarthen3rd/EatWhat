@@ -8,161 +8,88 @@
 
 import UIKit
 
-class PickerCell: UITableViewCell {
+class UIPickerCell: UITableViewCell {
     
-    var mapsArr: [String] = []
-    var browserArr: [String] = []
-    
-    let whichCell = UserDefaults.standard
-    
-    var defaultMaps = UserDefaults.standard
-    var defaultBrowser = UserDefaults.standard
-    
-    @IBOutlet var cellLabel: UILabel!
-    @IBOutlet var imageInCell: UIImageView!
+    @IBOutlet var label: UILabel!
+    @IBOutlet var appIcon: UIImageView!
     @IBOutlet var picker: UIPickerView!
+    
+    var arr = [String]()
+    
+    let defaults = UserDefaults.standard
     
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        mapsArr = ["Apple Maps", "Google Maps", "Waze"]
-        browserArr = ["Safari", "Google Chrome"]
-        picker.delegate = self
         picker.dataSource = self
+        picker.delegate = self
         
-        if whichCell.object(forKey: "whichCell") == nil {
-            
-            if defaultMaps.object(forKey: "defaultMaps") == nil {
-                
-                // is first time opening, default to Apple Maps here
-                defaultMaps.set("Apple Maps", forKey: "defaultMaps")
-                
-                
-            } else {
-                
-                // set image here
-                let stringToUse = defaultMaps.object(forKey: "defaultMaps") as! String
-                let indexToUse = mapsArr.index(of: stringToUse)
-                picker.selectRow(indexToUse!, inComponent: 0, animated: true)
-                imageInCell.image = UIImage(named: stringToUse)
-                
-            }
-            
-        } else if whichCell.object(forKey: "whichCell") as! String == "Maps" {
-            
-            // use maps
-            
-            if defaultMaps.object(forKey: "defaultMaps") == nil {
-                
-                // is first time opening, default to Apple Maps here
-                defaultMaps.set("Apple Maps", forKey: "defaultMaps")
-                
-                
-            } else {
-                
-                // set image here
-                let stringToUse = defaultMaps.object(forKey: "defaultMaps") as! String
-                let indexToUse = mapsArr.index(of: stringToUse)
-                picker.selectRow(indexToUse!, inComponent: 0, animated: true)
-                imageInCell.image = UIImage(named: stringToUse)
-                
-            }
-
-            
-        } else {
-            
-            // use browser
-            
-            if defaultBrowser.object(forKey: "defaultBrowser") == nil {
-                
-                defaultBrowser.set("Safari", forKey: "defaultBrowser")
-                
-            } else {
-                
-                let stringToUse = defaultBrowser.object(forKey: "defaultBrowser") as! String
-                let indexToUse = browserArr.index(of: stringToUse)
-                picker.selectRow(indexToUse!, inComponent: 0, animated: true)
-                imageInCell.image = UIImage(named: stringToUse)
-                
-            }
-            
+        var pickerString = ""
+        var pickerIndex = 0
+        
+        switch defaults.object(forKey: "whichCell") as! String {
+        case "Maps":
+            arr = ["Apple Maps", "Google Maps", "Waze"]
+            pickerString = defaults.object(forKey: "defaultMaps") as! String
+            pickerIndex = arr.index(of: pickerString)!
+            picker.selectRow(pickerIndex, inComponent: 0, animated: true)
+        case "Browser":
+            arr = ["Safari", "Google Chrome"]
+            pickerString = defaults.object(forKey: "defaultBrowser") as! String
+            pickerIndex = arr.index(of: pickerString)!
+            picker.selectRow(pickerIndex, inComponent: 0, animated: true)
+        default:
+            print("Default")
         }
         
     }
     
-    
 }
 
-extension PickerCell: UIPickerViewDelegate, UIPickerViewDataSource {
+extension UIPickerCell: UIPickerViewDelegate, UIPickerViewDataSource {
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         
-        if whichCell.object(forKey: "whichCell") as! String == "Maps" {
-            
-            defaultMaps.set(mapsArr[row], forKey: "defaultMaps")
-            imageInCell.image = UIImage(named: mapsArr[row])
-            
-        } else {
-            
-            defaultBrowser.set(mapsArr[row], forKey: "defaultBrowser")
-            imageInCell.image = UIImage(named: browserArr[row])
-            
+        let name = arr[row]
+        appIcon.image = UIImage(named: name)
+        
+        switch defaults.object(forKey: "whichCell") as! String {
+        case "Maps":
+            defaults.set(name, forKey: "defaultMaps")
+        case "Browser":
+            defaults.set(name, forKey: "defaultBrowser")
+        default:
+            print("Default")
         }
         
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return arr.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return arr[row]
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
     
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        
-        if whichCell.object(forKey: "whichCell") == nil {
-            
-            return mapsArr.count
-            
-        } else if whichCell.object(forKey: "whichCell") as! String == "Maps" {
-            
-            return mapsArr.count
-            
-        } else {
-            
-            return browserArr.count
-            
-        }
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        
-        if whichCell.object(forKey: "whichCell") == nil {
-            
-            return mapsArr[row]
-            
-        } else if whichCell.object(forKey: "whichCell") as! String == "Maps" {
-            
-            return mapsArr[row]
-            
-        } else {
-                        
-            return browserArr[row]
-            
-        }
-        
-    }
-    
 }
 
 class SettingsTableViewController: UITableViewController {
     
-    let whichCell = UserDefaults.standard
+    let defaults = UserDefaults.standard
     
-    let defaultMaps = UserDefaults.standard
     var selectedIndex : NSInteger! = -1
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         addBlur()
+        
+        tableView.tableFooterView = UIView(frame: .zero)
         
     }
 
@@ -199,21 +126,23 @@ class SettingsTableViewController: UITableViewController {
         
         if indexPath.row == 0 {
             
-            // cell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! UIPickerCell
+                        
+            defaults.set("Browser", forKey: "whichCell")
             
-            let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! PickerCell
-            
-            cell.cellLabel.text = "Default Maps App"
-            cell.whichCell.set("Maps", forKey: "whichCell")
+            cell.label.text = "Default Maps App"
+            cell.appIcon?.image = UIImage(named: defaults.object(forKey: "defaultMaps") as! String) ?? UIImage(named: "Apple Maps")
             
             return cell
             
         } else {
             
-            let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! PickerCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! UIPickerCell
             
-            cell.cellLabel.text = "Default Browser"
-            cell.whichCell.set("Browser", forKey: "whichCell")
+            defaults.set("Maps", forKey: "whichCell")
+            
+            cell.label.text = "Default Browser App"
+            cell.appIcon?.image = UIImage(named: defaults.object(forKey: "defaultBrowser") as! String) ?? UIImage(named: "Safari")
             
             return cell
             
@@ -234,7 +163,10 @@ class SettingsTableViewController: UITableViewController {
             
         }
         
-        tableView.reloadData()
+        tableView.beginUpdates()
+        tableView.endUpdates()
+        
+        // tableView.reloadData()
         
     }
     
