@@ -7,6 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5625943F1EA1A32C0040C0CB /* Cosmos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5625943E1EA1A32C0040C0CB /* Cosmos.framework */; };
+		5635356E1EAE5E9500B9172B /* ReviewCard.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5635356D1EAE5E9500B9172B /* ReviewCard.xib */; };
+		563535701EAE5EB600B9172B /* ReviewCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5635356F1EAE5EB600B9172B /* ReviewCard.swift */; };
+		5636222C1EA1971C00B8B200 /* PhoneNumberKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5636222B1EA1971C00B8B200 /* PhoneNumberKit.framework */; };
+		563939071E92F3410029A16F /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 563939061E92F3410029A16F /* SwiftyJSON.framework */; };
+		5639390A1E92F3860029A16F /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 563939081E92F3860029A16F /* Alamofire.framework */; };
+		5642C8B71E970D98000C4467 /* RestaurantCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5642C8B61E970D98000C4467 /* RestaurantCard.swift */; };
+		5642C8B91E970DA3000C4467 /* RestaurantCard.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5642C8B81E970DA3000C4467 /* RestaurantCard.xib */; };
+		5679166B1E92B2140059AA64 /* Finition.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5679166A1E92B2140059AA64 /* Finition.ttf */; };
+		5685D7131EAE948E0022E637 /* SDWebImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5685D7121EAE948E0022E637 /* SDWebImage.framework */; };
 		56C1D5351E9282A200D9EA95 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C1D5341E9282A200D9EA95 /* AppDelegate.swift */; };
 		56C1D5371E9282A200D9EA95 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C1D5361E9282A200D9EA95 /* ViewController.swift */; };
 		56C1D53A1E9282A200D9EA95 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 56C1D5381E9282A200D9EA95 /* Main.storyboard */; };
@@ -14,6 +24,8 @@
 		56C1D53F1E9282A200D9EA95 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 56C1D53D1E9282A200D9EA95 /* LaunchScreen.storyboard */; };
 		56C1D54A1E9282A200D9EA95 /* EatWhatTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C1D5491E9282A200D9EA95 /* EatWhatTests.swift */; };
 		56C1D5551E9282A200D9EA95 /* EatWhatUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C1D5541E9282A200D9EA95 /* EatWhatUITests.swift */; };
+		56F0EDF51EA1A96A0022BB51 /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56F0EDF41EA1A96A0022BB51 /* SettingsTableViewController.swift */; };
+		7699E8E583284E922F944D65 /* Pods_EatWhat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A82B9355E273C4BF58CA552 /* Pods_EatWhat.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +46,18 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5625943E1EA1A32C0040C0CB /* Cosmos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cosmos.framework; path = "../../../../Developer/Xcode/DerivedData/EatWhat-cbwbqlchfzorkthdjjaxdfdbkkbv/Build/Products/Debug-iphonesimulator/Cosmos/Cosmos.framework"; sourceTree = "<group>"; };
+		562876091E96E652003F07B5 /* Device_swift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Device_swift.framework; path = "../../../../Developer/Xcode/DerivedData/EatWhat-cbwbqlchfzorkthdjjaxdfdbkkbv/Build/Products/Debug-iphonesimulator/Device.swift/Device_swift.framework"; sourceTree = "<group>"; };
+		5635356D1EAE5E9500B9172B /* ReviewCard.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReviewCard.xib; sourceTree = "<group>"; };
+		5635356F1EAE5EB600B9172B /* ReviewCard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewCard.swift; sourceTree = "<group>"; };
+		5636222B1EA1971C00B8B200 /* PhoneNumberKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PhoneNumberKit.framework; path = "../../../../Developer/Xcode/DerivedData/EatWhat-cbwbqlchfzorkthdjjaxdfdbkkbv/Build/Products/Debug-iphonesimulator/PhoneNumberKit/PhoneNumberKit.framework"; sourceTree = "<group>"; };
+		563939061E92F3410029A16F /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = "../../../../Developer/Xcode/DerivedData/EatWhat-cbwbqlchfzorkthdjjaxdfdbkkbv/Build/Products/Debug-iphonesimulator/SwiftyJSON/SwiftyJSON.framework"; sourceTree = "<group>"; };
+		563939081E92F3860029A16F /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = "../../../../Developer/Xcode/DerivedData/EatWhat-cbwbqlchfzorkthdjjaxdfdbkkbv/Build/Products/Debug-iphonesimulator/Alamofire/Alamofire.framework"; sourceTree = "<group>"; };
+		563939091E92F3860029A16F /* Spring.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Spring.framework; path = "../../../../Developer/Xcode/DerivedData/EatWhat-cbwbqlchfzorkthdjjaxdfdbkkbv/Build/Products/Debug-iphonesimulator/Spring/Spring.framework"; sourceTree = "<group>"; };
+		5642C8B61E970D98000C4467 /* RestaurantCard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestaurantCard.swift; sourceTree = "<group>"; };
+		5642C8B81E970DA3000C4467 /* RestaurantCard.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RestaurantCard.xib; sourceTree = "<group>"; };
+		5679166A1E92B2140059AA64 /* Finition.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Finition.ttf; sourceTree = "<group>"; };
+		5685D7121EAE948E0022E637 /* SDWebImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDWebImage.framework; path = "Pods/../build/Debug-iphoneos/SDWebImage/SDWebImage.framework"; sourceTree = "<group>"; };
 		56C1D5311E9282A200D9EA95 /* EatWhat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EatWhat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		56C1D5341E9282A200D9EA95 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		56C1D5361E9282A200D9EA95 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -47,6 +71,10 @@
 		56C1D5501E9282A200D9EA95 /* EatWhatUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EatWhatUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		56C1D5541E9282A200D9EA95 /* EatWhatUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EatWhatUITests.swift; sourceTree = "<group>"; };
 		56C1D5561E9282A200D9EA95 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		56F0EDF41EA1A96A0022BB51 /* SettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
+		5DE47A2C8DF2AC8572609399 /* Pods-EatWhat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EatWhat.release.xcconfig"; path = "Pods/Target Support Files/Pods-EatWhat/Pods-EatWhat.release.xcconfig"; sourceTree = "<group>"; };
+		9A82B9355E273C4BF58CA552 /* Pods_EatWhat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EatWhat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E97D70C731A9A27893FB1AEB /* Pods-EatWhat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EatWhat.debug.xcconfig"; path = "Pods/Target Support Files/Pods-EatWhat/Pods-EatWhat.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +82,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5685D7131EAE948E0022E637 /* SDWebImage.framework in Frameworks */,
+				5625943F1EA1A32C0040C0CB /* Cosmos.framework in Frameworks */,
+				5636222C1EA1971C00B8B200 /* PhoneNumberKit.framework in Frameworks */,
+				5639390A1E92F3860029A16F /* Alamofire.framework in Frameworks */,
+				563939071E92F3410029A16F /* SwiftyJSON.framework in Frameworks */,
+				7699E8E583284E922F944D65 /* Pods_EatWhat.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -74,6 +108,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		193139F75D8434581082C399 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				E97D70C731A9A27893FB1AEB /* Pods-EatWhat.debug.xcconfig */,
+				5DE47A2C8DF2AC8572609399 /* Pods-EatWhat.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		56C1D5281E9282A100D9EA95 = {
 			isa = PBXGroup;
 			children = (
@@ -81,6 +124,8 @@
 				56C1D5481E9282A200D9EA95 /* EatWhatTests */,
 				56C1D5531E9282A200D9EA95 /* EatWhatUITests */,
 				56C1D5321E9282A200D9EA95 /* Products */,
+				193139F75D8434581082C399 /* Pods */,
+				B6F7639939CE55016F6C35AF /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -100,6 +145,12 @@
 				56C1D5341E9282A200D9EA95 /* AppDelegate.swift */,
 				56C1D5361E9282A200D9EA95 /* ViewController.swift */,
 				56C1D5381E9282A200D9EA95 /* Main.storyboard */,
+				5642C8B61E970D98000C4467 /* RestaurantCard.swift */,
+				5642C8B81E970DA3000C4467 /* RestaurantCard.xib */,
+				5635356F1EAE5EB600B9172B /* ReviewCard.swift */,
+				5635356D1EAE5E9500B9172B /* ReviewCard.xib */,
+				56F0EDF41EA1A96A0022BB51 /* SettingsTableViewController.swift */,
+				5679166A1E92B2140059AA64 /* Finition.ttf */,
 				56C1D53B1E9282A200D9EA95 /* Assets.xcassets */,
 				56C1D53D1E9282A200D9EA95 /* LaunchScreen.storyboard */,
 				56C1D5401E9282A200D9EA95 /* Info.plist */,
@@ -125,6 +176,21 @@
 			path = EatWhatUITests;
 			sourceTree = "<group>";
 		};
+		B6F7639939CE55016F6C35AF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				5685D7121EAE948E0022E637 /* SDWebImage.framework */,
+				5625943E1EA1A32C0040C0CB /* Cosmos.framework */,
+				5636222B1EA1971C00B8B200 /* PhoneNumberKit.framework */,
+				562876091E96E652003F07B5 /* Device_swift.framework */,
+				563939081E92F3860029A16F /* Alamofire.framework */,
+				563939091E92F3860029A16F /* Spring.framework */,
+				563939061E92F3410029A16F /* SwiftyJSON.framework */,
+				9A82B9355E273C4BF58CA552 /* Pods_EatWhat.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -132,9 +198,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 56C1D5591E9282A200D9EA95 /* Build configuration list for PBXNativeTarget "EatWhat" */;
 			buildPhases = (
+				2E785234F4E8E249DE8E4DB0 /* [CP] Check Pods Manifest.lock */,
 				56C1D52D1E9282A100D9EA95 /* Sources */,
 				56C1D52E1E9282A100D9EA95 /* Frameworks */,
 				56C1D52F1E9282A100D9EA95 /* Resources */,
+				460007A631850001D27A65AA /* [CP] Embed Pods Frameworks */,
+				7AF8F84BB5E8034C89765A94 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -193,6 +262,7 @@
 				TargetAttributes = {
 					56C1D5301E9282A100D9EA95 = {
 						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = 7CSTNGA4CB;
 						ProvisioningStyle = Automatic;
 					};
 					56C1D5441E9282A200D9EA95 = {
@@ -232,8 +302,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5679166B1E92B2140059AA64 /* Finition.ttf in Resources */,
+				5635356E1EAE5E9500B9172B /* ReviewCard.xib in Resources */,
 				56C1D53F1E9282A200D9EA95 /* LaunchScreen.storyboard in Resources */,
 				56C1D53C1E9282A200D9EA95 /* Assets.xcassets in Resources */,
+				5642C8B91E970DA3000C4467 /* RestaurantCard.xib in Resources */,
 				56C1D53A1E9282A200D9EA95 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -254,12 +327,63 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		2E785234F4E8E249DE8E4DB0 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		460007A631850001D27A65AA /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-EatWhat/Pods-EatWhat-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7AF8F84BB5E8034C89765A94 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-EatWhat/Pods-EatWhat-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		56C1D52D1E9282A100D9EA95 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				56F0EDF51EA1A96A0022BB51 /* SettingsTableViewController.swift in Sources */,
 				56C1D5371E9282A200D9EA95 /* ViewController.swift in Sources */,
+				563535701EAE5EB600B9172B /* ReviewCard.swift in Sources */,
+				5642C8B71E970D98000C4467 /* RestaurantCard.swift in Sources */,
 				56C1D5351E9282A200D9EA95 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -339,6 +463,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -389,6 +514,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -410,25 +536,41 @@
 		};
 		56C1D55A1E9282A200D9EA95 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E97D70C731A9A27893FB1AEB /* Pods-EatWhat.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 7CSTNGA4CB;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/SDWebImage",
+				);
 				INFOPLIST_FILE = EatWhat/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.omarabbasi.EatWhat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
 		56C1D55B1E9282A200D9EA95 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5DE47A2C8DF2AC8572609399 /* Pods-EatWhat.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 7CSTNGA4CB;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/SDWebImage",
+				);
 				INFOPLIST_FILE = EatWhat/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.omarabbasi.EatWhat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -505,6 +647,7 @@
 				56C1D55B1E9282A200D9EA95 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		56C1D55C1E9282A200D9EA95 /* Build configuration list for PBXNativeTarget "EatWhatTests" */ = {
 			isa = XCConfigurationList;
@@ -513,6 +656,7 @@
 				56C1D55E1E9282A200D9EA95 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		56C1D55F1E9282A200D9EA95 /* Build configuration list for PBXNativeTarget "EatWhatUITests" */ = {
 			isa = XCConfigurationList;
@@ -521,6 +665,7 @@
 				56C1D5611E9282A200D9EA95 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
