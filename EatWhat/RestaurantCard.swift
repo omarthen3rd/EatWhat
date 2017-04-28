@@ -128,7 +128,8 @@ class RestaurantCard: UIView, UIWebViewDelegate {
             
             if defaults.object(forKey: "whichCell") == nil {
                 
-                defaults.set("Maps", forKey: "whichCell")
+                print("ran this")
+                defaults.set("", forKey: "whichCell")
                 
             }
             
@@ -301,6 +302,23 @@ class RestaurantCard: UIView, UIWebViewDelegate {
                     
                 }
                 
+            } else if browserName == "Google Chrome" {
+                
+                if let url = URL(string: "googlechromes://\(restaurant.website)") {
+                    
+                    UIApplication.shared.open(url, options: [:], completionHandler: { (success) in
+                        
+                        if !success {
+                            
+                            let alert = Alert()
+                            alert.msg(title: "Failed To Open Google Chrome", message: "There's been a slight complication. Google Chrome isn't installed on your iPhone.")
+                            
+                        }
+                        
+                    })
+                    
+                }
+                
             }
             
         }
@@ -338,7 +356,7 @@ class RestaurantCard: UIView, UIWebViewDelegate {
                     if !success {
                         
                         let alert = Alert()
-                        alert.msg(title: "Failed To Open Maps", message: "There's been a slight complication. Make sure you have Maps installed on you iPhone.")
+                        alert.msg(title: "Failed To Open Maps", message: "There's been a slight complication. Make sure you have Maps installed on your iPhone.")
                         
                     }
                     
@@ -356,7 +374,7 @@ class RestaurantCard: UIView, UIWebViewDelegate {
                         if !success {
                             
                             let alert = Alert()
-                            alert.msg(title: "Failed To Open Maps", message: "There's been a slight complication. Make sure you have Maps installed on you iPhone.")
+                            alert.msg(title: "Failed To Open Maps", message: "There's been a slight complication. Make sure you have Maps installed on your iPhone.")
                         }
                         
                     })
@@ -408,6 +426,8 @@ class RestaurantCard: UIView, UIWebViewDelegate {
             
             let mapsImageName = defaults.object(forKey: "defaultMaps") as! String
             restaurantMap.setImage(UIImage(named: mapsImageName), for: .normal)
+            let browserImageName = defaults.object(forKey: "defaultBrowser") as! String
+            restaurantWebsite.setImage(UIImage(named: browserImageName), for: .normal)
             
             UIView.animate(withDuration: 0.3) {
                 
@@ -430,6 +450,8 @@ class RestaurantCard: UIView, UIWebViewDelegate {
             
             let mapsImageName = defaults.object(forKey: "defaultMaps") as! String
             restaurantMap.setImage(UIImage(named: mapsImageName), for: .normal)
+            let browserImageName = defaults.object(forKey: "defaultBrowser") as! String
+            restaurantWebsite.setImage(UIImage(named: browserImageName), for: .normal)
             
             UIView.animate(withDuration: 0.3) {
                 

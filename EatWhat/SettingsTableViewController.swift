@@ -39,7 +39,10 @@ class UIPickerCell: UITableViewCell {
             pickerIndex = arr.index(of: pickerString)!
             picker.selectRow(pickerIndex, inComponent: 0, animated: true)
         default:
-            print("Default")
+            arr = ["Apple Maps", "Google Maps", "Waze"]
+            pickerString = defaults.object(forKey: "defaultMaps") as! String
+            pickerIndex = arr.index(of: pickerString)!
+            picker.selectRow(pickerIndex, inComponent: 0, animated: true)
         }
         
     }
@@ -53,13 +56,10 @@ extension UIPickerCell: UIPickerViewDelegate, UIPickerViewDataSource {
         let name = arr[row]
         appIcon.image = UIImage(named: name)
         
-        switch defaults.object(forKey: "whichCell") as! String {
-        case "Maps":
-            defaults.set(name, forKey: "defaultMaps")
-        case "Browser":
+        if arr.contains("Safari") {
             defaults.set(name, forKey: "defaultBrowser")
-        default:
-            print("Default")
+        } else {
+            defaults.set(name, forKey: "defaultMaps")
         }
         
     }
@@ -148,10 +148,11 @@ class SettingsTableViewController: UITableViewController {
             
         }
         
-        
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        tableView.deselectRow(at: indexPath, animated: true)
         
         if indexPath.row == selectedIndex {
             
@@ -166,15 +167,13 @@ class SettingsTableViewController: UITableViewController {
         tableView.beginUpdates()
         tableView.endUpdates()
         
-        // tableView.reloadData()
-        
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
         if indexPath.row == selectedIndex {
             
-            return 220
+            return 250
             
         } else {
             
