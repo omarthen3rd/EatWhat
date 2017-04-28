@@ -132,7 +132,7 @@ class RestaurantCard: UIView, UIWebViewDelegate {
             tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.showReviewsView))
             tapGesture.numberOfTapsRequired = 1
             
-            restaurantStars.addGestureRecognizer(tapGesture)
+            // restaurantStars.addGestureRecognizer(tapGesture)
             
             if restaurant.priceRange == "" {
                 restaurantPriceRange.text = "No Price Range Available"
@@ -397,6 +397,9 @@ class RestaurantCard: UIView, UIWebViewDelegate {
         
         if didAnimateView {
             
+            let mapsImageName = defaultMaps.object(forKey: "defaultMaps") as! String
+            restaurantMap.setImage(UIImage(named: mapsImageName), for: .normal)
+            
             UIView.animate(withDuration: 0.3) {
                 
                 self.restaurantMap.alpha = 0.0
@@ -415,6 +418,9 @@ class RestaurantCard: UIView, UIWebViewDelegate {
             swipeGesture.direction = UISwipeGestureRecognizerDirection.up
             
         } else {
+            
+            let mapsImageName = defaultMaps.object(forKey: "defaultMaps") as! String
+            restaurantMap.setImage(UIImage(named: mapsImageName), for: .normal)
             
             UIView.animate(withDuration: 0.3) {
                 

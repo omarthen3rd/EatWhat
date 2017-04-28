@@ -304,20 +304,14 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
         
         for category in categories {
             let button = createButton(category, y: buttonY)
-            button.addTarget(self, action: #selector(self.handleSelectedRestaurant(_:_:)), for: .touchDown)
+            button.addTarget(self, action: #selector(self.handleSelectedRestaurant(_:_:)), for: .touchUpInside)
             buttonY += 40
             self.scrollView.addSubview(button)
         }
         
         scrollView.contentSize = CGSize(width: self.vibrancyView.bounds.width, height: buttonY)
-        
-        // self.handleSelectedRestaurant((scrollView.subviews[0] as? UIButton)!)
-        
+                
         self.loadCard(true)
-        
-        if let buttonToUse = self.scrollView.subviews[0] as? UIButton {
-            self.handleSelectedRestaurant(buttonToUse, true)
-        }
         
     }
     
@@ -626,6 +620,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
                 
                 if self.restaurants.isEmpty {
                     
+                    self.noresultsLabel.text = "No Results"
                     self.noresultsLabel.isHidden = false
                     
                 } else {
