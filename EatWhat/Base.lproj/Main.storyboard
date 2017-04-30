@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16F60a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -42,18 +42,24 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
-                                                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Results" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.20000000000000001" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="b3K-uv-iLT">
-                                                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Results" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.20000000000000001" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="b3K-uv-iLT">
+                                                        <rect key="frame" x="16" y="0.0" width="343" height="667"/>
                                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="52"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
+                                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="9uT-GU-bue">
+                                                        <rect key="frame" x="169" y="460" width="37" height="37"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    </activityIndicatorView>
                                                 </subviews>
                                                 <constraints>
-                                                    <constraint firstItem="b3K-uv-iLT" firstAttribute="centerX" secondItem="uya-RJ-fiN" secondAttribute="centerX" id="1DC-eu-s3T"/>
-                                                    <constraint firstItem="b3K-uv-iLT" firstAttribute="width" secondItem="uya-RJ-fiN" secondAttribute="width" id="J9f-Kb-h7l"/>
-                                                    <constraint firstItem="b3K-uv-iLT" firstAttribute="height" secondItem="uya-RJ-fiN" secondAttribute="height" id="VnH-l0-Wz0"/>
-                                                    <constraint firstItem="b3K-uv-iLT" firstAttribute="centerY" secondItem="uya-RJ-fiN" secondAttribute="centerY" id="wg5-Wp-qdy"/>
+                                                    <constraint firstItem="b3K-uv-iLT" firstAttribute="leading" secondItem="uya-RJ-fiN" secondAttribute="leading" constant="16" id="3ht-0e-PRf"/>
+                                                    <constraint firstItem="b3K-uv-iLT" firstAttribute="top" secondItem="uya-RJ-fiN" secondAttribute="top" id="FTB-nZ-WSl"/>
+                                                    <constraint firstAttribute="trailing" secondItem="b3K-uv-iLT" secondAttribute="trailing" constant="16" id="Fdn-hK-KOG"/>
+                                                    <constraint firstItem="b3K-uv-iLT" firstAttribute="centerX" secondItem="uya-RJ-fiN" secondAttribute="centerX" id="kbn-Dc-Ll6"/>
+                                                    <constraint firstItem="b3K-uv-iLT" firstAttribute="centerY" secondItem="uya-RJ-fiN" secondAttribute="centerY" id="r5q-JV-4yH"/>
+                                                    <constraint firstAttribute="bottom" secondItem="b3K-uv-iLT" secondAttribute="bottom" id="vk9-9s-4nP"/>
                                                 </constraints>
                                             </view>
                                             <vibrancyEffect>
@@ -195,6 +201,7 @@
                         <outlet property="mainLabel" destination="l6e-iv-STL" id="dxU-QH-Fi8"/>
                         <outlet property="middleButton" destination="02f-l1-nfF" id="PHX-tk-22b"/>
                         <outlet property="noresultsLabel" destination="b3K-uv-iLT" id="Gd5-iE-9fi"/>
+                        <outlet property="spinningView" destination="9uT-GU-bue" id="GWM-4T-sWL"/>
                         <outlet property="vibrancyView" destination="qp5-p3-eKE" id="aJk-Hm-THM"/>
                     </connections>
                 </viewController>

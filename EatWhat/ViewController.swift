@@ -107,6 +107,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
     @IBOutlet weak var vibrancyView: UIView!
     @IBOutlet var containerView: UIView!
     @IBOutlet var noresultsLabel: UILabel!
+    @IBOutlet var spinningView: UIActivityIndicatorView!
     @IBAction func unwindToMenu(segue: UIStoryboardSegue) {}
         
     var snapBehavior: UISnapBehavior!
@@ -224,9 +225,14 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
         }
         
         if self.restaurantIndex == 0 {
+            self.spinningView.hidesWhenStopped = true
+            self.spinningView.stopAnimating()
+            self.noresultsLabel.isHidden = true
             self.likeButton.isEnabled = true
             self.dislikeButton.isEnabled = false
         } else {
+            self.spinningView.stopAnimating()
+            self.noresultsLabel.isHidden = true
             self.likeButton.isEnabled = true
             self.dislikeButton.isEnabled = true
         }
@@ -234,6 +240,8 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
     }
     
     func loadInterface() {
+        
+        self.spinningView.startAnimating()
                 
         dislikeButton.addTarget(self, action: #selector(self.leftTap), for: .touchUpInside)
         likeButton.addTarget(self, action: #selector(self.rightTap), for: .touchUpInside)
@@ -416,30 +424,23 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
             
         }, completion: { (success) in
             
-            if self.restaurants.endIndex == self.restaurantIndex + 1 {
+            self.card.removeFromSuperview()
+            self.restaurantIndex -= 1
+            
+            if self.restaurants.endIndex == self.restaurantIndex {
                 
-                let banner = self.createBanner("well shit it's empty")
-                self.view.addSubview(banner)
+                self.noresultsLabel.text = "No More Results"
+                self.noresultsLabel.isHidden = false
+                
+                self.dislikeButton.isEnabled = true
+                self.likeButton.isEnabled = false
                 
             } else {
-                
-                self.card.removeFromSuperview()
-                self.restaurantIndex -= 1
-                
-                if self.restaurants.endIndex == self.restaurantIndex {
-                    DispatchQueue.global(qos: .userInitiated).async {
-                        DispatchQueue.main.async {
-                            self.loadSadView()
-                        }
-                    }
-                } else {
-                    DispatchQueue.global(qos: .userInitiated).async {
-                        DispatchQueue.main.async {
-                            self.loadCard(false)
-                        }
+                DispatchQueue.global(qos: .userInitiated).async {
+                    DispatchQueue.main.async {
+                        self.loadCard(false)
                     }
                 }
-                
             }
             
         })
@@ -455,31 +456,24 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
             
         }, completion: { (success) in
             
-            if self.restaurants.endIndex == self.restaurantIndex + 1 {
+            self.card.removeFromSuperview()
+            self.restaurantIndex += 1
+            
+            if self.restaurants.endIndex == self.restaurantIndex {
                 
-                let banner = self.createBanner("well shit it's empty")
-                self.view.addSubview(banner)
+                self.noresultsLabel.text = "No More Results"
+                self.noresultsLabel.isHidden = false
+                
                 self.dislikeButton.isEnabled = true
+                self.likeButton.isEnabled = false
+                
                 
             } else {
-                
-                self.card.removeFromSuperview()
-                self.restaurantIndex += 1
-                
-                if self.restaurants.endIndex == self.restaurantIndex {
-                    DispatchQueue.global(qos: .userInitiated).async {
-                        DispatchQueue.main.async {
-                            self.loadSadView()
-                        }
-                    }
-                } else {
-                    DispatchQueue.global(qos: .userInitiated).async {
-                        DispatchQueue.main.async {
-                            self.loadCard(true)
-                        }
+                DispatchQueue.global(qos: .userInitiated).async {
+                    DispatchQueue.main.async {
+                        self.loadCard(true)
                     }
                 }
-                
             }
             
         })
@@ -583,6 +577,8 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
     
     func handleSelectedRestaurant(_ button: UIButton, _ onlySelect: Bool = false) {
         
+        self.spinningView.startAnimating()
+        
         if onlySelect {
             
             button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 25)
@@ -625,8 +621,6 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
                     
                 } else {
                     
-                    self.noresultsLabel.text = "Loading..."
-                    self.noresultsLabel.isHidden = false
                     DispatchQueue.global(qos: .userInitiated).async {
                         DispatchQueue.main.async {
                             self.noresultsLabel.isHidden = true
@@ -650,8 +644,6 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
         
         if viewIsOpen {
             
-            // close view
-            
             UIView.animate(withDuration: 0.3, animations: { 
                 
                 self.containerView.isHidden = true
@@ -664,9 +656,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
             self.viewIsOpen = false
             
         } else {
-            
-            // open view
-            
+                        
             UIView.animate(withDuration: 0.3, animations: {
                 
                 self.containerView.isHidden = false
@@ -688,6 +678,17 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         
         // add some kind of error view telling user to allow location
+        
+        if error != nil {
+            
+            let alrt = UIAlertController(title: "Please Enable Location Services", message: "This application cannot work withour enabling Location Services.", preferredStyle: .alert)
+            let alrtAction = UIAlertAction(title: "Okay", style: .default, handler: nil)
+            alrt.addAction(alrtAction)
+            self.present(alrt, animated: true, completion: nil)
+            
+        }
+        
+        print("this is error:" + "\(error)")
         
     }
     

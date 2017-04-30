@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16F60a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -239,10 +239,10 @@
                             <constraint firstItem="LQB-yJ-fK0" firstAttribute="top" secondItem="01Z-wd-5yy" secondAttribute="topMargin" id="JKc-Ug-wHh"/>
                             <constraint firstItem="zeE-O6-7Zj" firstAttribute="width" secondItem="Sa5-qN-aWA" secondAttribute="width" id="Jid-JK-jio"/>
                             <constraint firstItem="LQB-yJ-fK0" firstAttribute="leading" secondItem="01Z-wd-5yy" secondAttribute="leadingMargin" id="LOj-Ut-Ne9"/>
-                            <constraint firstAttribute="bottom" secondItem="6BG-dx-2Dy" secondAttribute="bottom" constant="88" id="N8p-Hg-O0g"/>
                             <constraint firstItem="iF4-gC-uSg" firstAttribute="leading" secondItem="9bm-Md-QTt" secondAttribute="leading" id="Pqb-cy-fbi"/>
                             <constraint firstAttribute="trailing" secondItem="LQB-yJ-fK0" secondAttribute="trailing" constant="8" id="TU2-kj-fjC"/>
                             <constraint firstItem="9bm-Md-QTt" firstAttribute="leading" secondItem="6BG-dx-2Dy" secondAttribute="leading" id="VnT-si-G60"/>
+                            <constraint firstItem="6BG-dx-2Dy" firstAttribute="top" secondItem="BmV-DP-sXZ" secondAttribute="bottom" constant="1" id="ZBh-iz-6XK"/>
                             <constraint firstItem="ti8-ZC-j2O" firstAttribute="top" secondItem="xXQ-cI-Rp4" secondAttribute="bottom" constant="10" id="a2y-Yb-YYz"/>
                             <constraint firstItem="3lk-bh-IAL" firstAttribute="centerX" secondItem="LQB-yJ-fK0" secondAttribute="centerX" id="aOO-xf-Kcq"/>
                             <constraint firstItem="xXQ-cI-Rp4" firstAttribute="top" secondItem="LQB-yJ-fK0" secondAttribute="bottom" constant="9" id="cSa-Aw-Jjg"/>
