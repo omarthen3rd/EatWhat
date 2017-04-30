@@ -163,6 +163,8 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
     
     func loadCard(_ forward: Bool) {
         
+        self.spinningView.hidesWhenStopped = true
+        
         self.card = RestaurantCard(frame: CGRect(x: 0, y: 0, width: 343, height: 449))
         self.card.restaurant = self.restaurants[self.restaurantIndex]
         self.card.translatesAutoresizingMaskIntoConstraints = false
@@ -193,6 +195,8 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
             
             }, completion: { (success) in
                 
+                self.spinningView.stopAnimating()
+                
             })
             
         } else {
@@ -220,18 +224,17 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
                 
             }, completion: { (success) in
                 
+                self.spinningView.stopAnimating()
+                
             })
             
         }
         
         if self.restaurantIndex == 0 {
-            self.spinningView.hidesWhenStopped = true
-            self.spinningView.stopAnimating()
             self.noresultsLabel.isHidden = true
             self.likeButton.isEnabled = true
             self.dislikeButton.isEnabled = false
         } else {
-            self.spinningView.stopAnimating()
             self.noresultsLabel.isHidden = true
             self.likeButton.isEnabled = true
             self.dislikeButton.isEnabled = true
@@ -323,25 +326,6 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
         
     }
     
-    func boolToString(_ bool: Bool) -> String {
-        
-        if bool {
-            return "Yes"
-        } else {
-            return "No"
-        }
-        
-    }
-    
-    func returnBool(_ number: Int) -> Bool {
-        
-        if number == 1 {
-            return true
-        } else {
-            return false
-        }
-    }
-    
     func createButton(_ buttonTitle: String, y: CGFloat) -> UIButton {
         
         let button = UIButton(frame: CGRect(x: 0, y: y, width: self.vibrancyView.bounds.width, height: 40))
@@ -372,46 +356,6 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
         button.setTitleColor(UIColor.black, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 17)
         return button
-        
-    }
-    
-    func loadSadView() {
-        
-        sadView = UIView(frame: CGRect(x: 312.5 * 0.1, y: 401 / 4, width: 312.5, height: 401))
-        
-        let sadText = UILabel(frame: CGRect(x: 0, y: 0, width: 312.5, height: 401))
-        sadText.text = "No Results"
-        sadText.textColor = UIColor.white
-        sadText.font = UIFont.systemFont(ofSize: 40, weight: UIFontWeightBold)
-        sadText.numberOfLines = 0
-        sadText.textAlignment = .center
-        
-        self.likeButton.isEnabled = false
-        self.dislikeButton.isEnabled = false
-        
-        sadView.addSubview(sadText)
-        self.view.insertSubview(sadView, at: 1)
-        
-    }
-    
-    func createBanner(_ bannerText: String) -> UIView {
-        
-        let banner = UIView(frame: CGRect(x: 31.25, y: dislikeButton.frame.origin.y - 60, width: 312.5, height: 40))
-        banner.layer.cornerRadius = 10
-        banner.backgroundColor = UIColor.white
-        
-        let bannerLabel = UILabel(frame: CGRect(x: 15, y: 0, width: 312.5 - 15, height: 40))
-        bannerLabel.text = bannerText
-        bannerLabel.textAlignment = .left
-        bannerLabel.numberOfLines = 1
-        bannerLabel.font = UIFont.systemFont(ofSize: 18, weight: UIFontWeightRegular)
-        
-        self.dislikeButton.isEnabled = false
-        self.likeButton.isEnabled = false
-        
-        banner.addSubview(bannerLabel)
-        
-        return banner
         
     }
     
@@ -618,6 +562,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
                     
                     self.noresultsLabel.text = "No Results"
                     self.noresultsLabel.isHidden = false
+                    self.spinningView.stopAnimating()
                     
                 } else {
                     
@@ -687,9 +632,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
             self.present(alrt, animated: true, completion: nil)
             
         }
-        
-        print("this is error:" + "\(error)")
-        
+                
     }
     
     private var didPerformGeocode = false

@@ -208,7 +208,7 @@ class RestaurantCard: UIView, UIWebViewDelegate {
                 
                 restaurantTransactions.isHidden = true
                 vibrancyTransactions.isHidden = true
-                                
+                
             }
             
             restaurantMap.alpha = 0.0
