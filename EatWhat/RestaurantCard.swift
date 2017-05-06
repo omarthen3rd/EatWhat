@@ -62,6 +62,7 @@ class RestaurantCard: UIView, UIWebViewDelegate {
     @IBOutlet var restaurantLocation: UILabel!
     @IBOutlet var restaurantPhone: UILabel!
     @IBOutlet var restaurantTransactions: UILabel!
+    @IBOutlet var favouriteRestaurant: UIButton!
     
     @IBOutlet var vibrancyRectangle: UIView!
     @IBOutlet var vibrancyAddress: UILabel!
@@ -70,8 +71,9 @@ class RestaurantCard: UIView, UIWebViewDelegate {
     
     var tapGesture = UITapGestureRecognizer()
     var restaurantReviews = [RestaurantReview]()
+    var favouriteRestaurants = [Restaurantt]()
     
-    var restaurant: Restaurant! {
+    var restaurant: Restaurantt! {
         
         didSet {
             
@@ -219,6 +221,7 @@ class RestaurantCard: UIView, UIWebViewDelegate {
             vibrancyTransactions.alpha = 0.0
             vibrancyRectangle.alpha = 0.0
             
+            favouriteRestaurant.addTarget(self, action: #selector(self.addToFavourites), for: .touchUpInside)
             restaurantWebsite.addTarget(self, action: #selector(self.openWebsite), for: .touchUpInside)
             callRestaurant.addTarget(self, action: #selector(self.callBusiness), for: .touchUpInside)
             restaurantMap.addTarget(self, action: #selector(self.openMaps), for: .touchUpInside)
@@ -259,6 +262,52 @@ class RestaurantCard: UIView, UIWebViewDelegate {
         } else {
             
             return input
+            
+        }
+        
+    }
+    
+    func addToFavourites() {
+        
+        self.favouriteRestaurants.append(restaurant)
+        
+        if defaults.object(forKey: "favourites") == nil {
+            
+            print("nil")
+            
+            // no favs, encode arr and replace
+            
+            let encodedData: Data = NSKeyedArchiver.archivedData(withRootObject: self.favouriteRestaurants)
+            defaults.set(encodedData, forKey: "favourites")
+            defaults.synchronize()
+            
+        } else {
+            
+            // favs are there, decode array, append to it, encode it, then archive and send to UserDefaults
+            
+            if let decodedArr = defaults.object(forKey: "favourites") as? Data {
+                
+                if var decodedRestaurants = NSKeyedUnarchiver.unarchiveObject(with: decodedArr) as? [Restaurantt] {
+                    
+                    if !(decodedRestaurants.contains(where: { $0.id == restaurant.id })) {
+                        
+                        decodedRestaurants.append(restaurant)
+                        
+                    } else {
+                        
+                        let alert = Alert()
+                        alert.msg(title: "Already In Favourites", message: "The restaurant you favourited is already in your favourites.")
+                        
+                        
+                    }
+                    
+                    let encode: Data = NSKeyedArchiver.archivedData(withRootObject: decodedRestaurants)
+                    defaults.set(encode, forKey: "favourites")
+                    defaults.synchronize()
+                    
+                }
+                
+            }
             
         }
         

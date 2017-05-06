@@ -17,6 +17,7 @@
 		5642C8B91E970DA3000C4467 /* RestaurantCard.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5642C8B81E970DA3000C4467 /* RestaurantCard.xib */; };
 		5679166B1E92B2140059AA64 /* Finition.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5679166A1E92B2140059AA64 /* Finition.ttf */; };
 		5685D7131EAE948E0022E637 /* SDWebImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5685D7121EAE948E0022E637 /* SDWebImage.framework */; };
+		56A8247B1EB6434900F1F0B6 /* FavouritesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56A8247A1EB6434900F1F0B6 /* FavouritesTableViewController.swift */; };
 		56C1D5351E9282A200D9EA95 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C1D5341E9282A200D9EA95 /* AppDelegate.swift */; };
 		56C1D5371E9282A200D9EA95 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C1D5361E9282A200D9EA95 /* ViewController.swift */; };
 		56C1D53A1E9282A200D9EA95 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 56C1D5381E9282A200D9EA95 /* Main.storyboard */; };
@@ -58,6 +59,7 @@
 		5642C8B81E970DA3000C4467 /* RestaurantCard.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RestaurantCard.xib; sourceTree = "<group>"; };
 		5679166A1E92B2140059AA64 /* Finition.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Finition.ttf; sourceTree = "<group>"; };
 		5685D7121EAE948E0022E637 /* SDWebImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDWebImage.framework; path = "Pods/../build/Debug-iphoneos/SDWebImage/SDWebImage.framework"; sourceTree = "<group>"; };
+		56A8247A1EB6434900F1F0B6 /* FavouritesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavouritesTableViewController.swift; sourceTree = "<group>"; };
 		56C1D5311E9282A200D9EA95 /* EatWhat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EatWhat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		56C1D5341E9282A200D9EA95 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		56C1D5361E9282A200D9EA95 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -150,6 +152,7 @@
 				5635356F1EAE5EB600B9172B /* ReviewCard.swift */,
 				5635356D1EAE5E9500B9172B /* ReviewCard.xib */,
 				56F0EDF41EA1A96A0022BB51 /* SettingsTableViewController.swift */,
+				56A8247A1EB6434900F1F0B6 /* FavouritesTableViewController.swift */,
 				5679166A1E92B2140059AA64 /* Finition.ttf */,
 				56C1D53B1E9282A200D9EA95 /* Assets.xcassets */,
 				56C1D53D1E9282A200D9EA95 /* LaunchScreen.storyboard */,
@@ -385,6 +388,7 @@
 				563535701EAE5EB600B9172B /* ReviewCard.swift in Sources */,
 				5642C8B71E970D98000C4467 /* RestaurantCard.swift in Sources */,
 				56C1D5351E9282A200D9EA95 /* AppDelegate.swift in Sources */,
+				56A8247B1EB6434900F1F0B6 /* FavouritesTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
