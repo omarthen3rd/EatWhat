@@ -13,6 +13,16 @@ import SwiftyJSON
 import WebKit
 import Alamofire
 
+private extension NSLayoutConstraint  {
+    
+    func hasExceeded(_ verticalLimit: CGFloat) -> Bool {
+        
+        return self.constant < verticalLimit
+        
+    }
+    
+}
+
 class Alert {
     
     func msg(title: String, message: String) {
@@ -31,11 +41,16 @@ class RestaurantCard: UIView, UIWebViewDelegate {
     var didAnimateView = false
     var didShowReviewView = false
     var originalY: CGFloat = 0
+    var yMin: CGFloat = 0
+    var totalTranslation: CGFloat = 0
+    var yTransToAddTo = CGFloat()
     let defaults = UserDefaults.standard
     
     let phoneNumberKit = PhoneNumberKit()
     
     @IBOutlet var contentView: UIView!
+    
+    @IBOutlet var footerViewTopConstraint: NSLayoutConstraint!
     
     @IBOutlet var doneButton: UIButton!
     @IBAction func doneAction(_ sender: Any) {
@@ -61,12 +76,13 @@ class RestaurantCard: UIView, UIWebViewDelegate {
     @IBOutlet var restaurantWebsite: UIButton!
     @IBOutlet var restaurantLocation: UILabel!
     @IBOutlet var restaurantPhone: UILabel!
+    @IBOutlet var restaurantTimings: UILabel!
     @IBOutlet var restaurantTransactions: UILabel!
-    @IBOutlet var favouriteRestaurant: UIButton!
     
     @IBOutlet var vibrancyRectangle: UIView!
     @IBOutlet var vibrancyAddress: UILabel!
     @IBOutlet var vibrancyContact: UILabel!
+    @IBOutlet var vibrancyTimings: UILabel!
     @IBOutlet var vibrancyTransactions: UILabel!
     
     var tapGesture = UITapGestureRecognizer()
@@ -137,6 +153,12 @@ class RestaurantCard: UIView, UIWebViewDelegate {
             
             loadImage(restaurant.imageURL)
             
+            let doubleTapGesture = UITapGestureRecognizer(target: self, action: #selector(self.addToFavourites))
+            doubleTapGesture.numberOfTapsRequired = 2
+            doubleTapGesture.numberOfTouchesRequired = 2
+            
+            featuredImageView.addGestureRecognizer(doubleTapGesture)
+            
             restaurantNameLabel.text = restaurant.name
             restaurantCategory.text = restaurant.category
             restaurantStars.rating = Double(restaurant.rating)
@@ -144,7 +166,7 @@ class RestaurantCard: UIView, UIWebViewDelegate {
             tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.showReviewsView))
             tapGesture.numberOfTapsRequired = 1
             
-            // restaurantStars.addGestureRecognizer(tapGesture)
+            restaurantStars.addGestureRecognizer(tapGesture)
             
             if restaurant.priceRange == "" {
                 restaurantPriceRange.text = "No Price Range Available"
@@ -193,6 +215,51 @@ class RestaurantCard: UIView, UIWebViewDelegate {
                 
             }
             
+            showBusinessDetails(restaurant.id) { (arr) in
+                
+                print("ran first")
+                
+                if !(arr.isEmpty) {
+                    
+                    for operationDay in arr {
+                        
+                        if operationDay.day == self.getCurrentDay() {
+                            
+                            self.restaurantTimings.text = "Open Until: " + "\(operationDay.endTime)"
+                            
+                        }
+                        
+                    }
+                    
+                } else {
+                    
+                    print("arrIsEmpty")
+                    
+                }
+                
+            }
+            
+            /*
+            let currentDay = getCurrentDay()
+            
+            for day in restaurant.operationHours {
+                
+                print(day.day)
+                
+                if day.day == currentDay {
+                    
+                    restaurantTimings.text = "Open Until: " + "\(day.endTime)"
+                    print("ran if")
+                    
+                } else {
+                    
+                    restaurantTimings.text = "Timings Unavailable"
+                    print("ran else")
+                    
+                }
+                
+            } */
+            
             restaurantTransactions.text = ""
             
             for transaction in restaurant.transactions {
@@ -203,6 +270,8 @@ class RestaurantCard: UIView, UIWebViewDelegate {
             
             originalY = footerView.bounds.origin.y
             self.footerView.bounds.origin.y -= (self.footerView.frame.height) - (self.restaurantPriceRange.frame.height + self.restaurantMap.frame.height)
+            yMin = self.footerView.bounds.origin.y
+            totalTranslation = yMin
             swipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(self.moveDown))
             swipeGesture.direction = UISwipeGestureRecognizerDirection.up
             
@@ -221,7 +290,6 @@ class RestaurantCard: UIView, UIWebViewDelegate {
             vibrancyTransactions.alpha = 0.0
             vibrancyRectangle.alpha = 0.0
             
-            favouriteRestaurant.addTarget(self, action: #selector(self.addToFavourites), for: .touchUpInside)
             restaurantWebsite.addTarget(self, action: #selector(self.openWebsite), for: .touchUpInside)
             callRestaurant.addTarget(self, action: #selector(self.callBusiness), for: .touchUpInside)
             restaurantMap.addTarget(self, action: #selector(self.openMaps), for: .touchUpInside)
@@ -272,9 +340,7 @@ class RestaurantCard: UIView, UIWebViewDelegate {
         self.favouriteRestaurants.append(restaurant)
         
         if defaults.object(forKey: "favourites") == nil {
-            
-            print("nil")
-            
+                        
             // no favs, encode arr and replace
             
             let encodedData: Data = NSKeyedArchiver.archivedData(withRootObject: self.favouriteRestaurants)
@@ -525,7 +591,7 @@ class RestaurantCard: UIView, UIWebViewDelegate {
     
     func showReviewsView() {
         
-        print("ran this")
+        print("showsReviewView ran")
         
         if didShowReviewView {
             
@@ -553,7 +619,9 @@ class RestaurantCard: UIView, UIWebViewDelegate {
             didShowReviewView = true
             
             // remove here
+            self.resignFirstResponder()
             self.reviewVisualView.isUserInteractionEnabled = true
+            self.reviewVisualView.becomeFirstResponder()
             self.restaurantStars.removeGestureRecognizer(tapGesture)
             
         }
@@ -627,6 +695,119 @@ class RestaurantCard: UIView, UIWebViewDelegate {
             }
             
         }
+        
+    }
+    
+    func getCurrentDay() -> String {
+        
+        let date = Date()
+        let calendar = Calendar.current
+        
+        let timeZoneAbbr = TimeZone.current.abbreviation()
+        
+        let day = calendar.component(.weekday, from: date)
+        
+        let f = DateFormatter()
+        f.timeZone = TimeZone(abbreviation: timeZoneAbbr!)
+        
+        var weekDay = String()
+
+        switch day {
+            
+        case 2:
+            weekDay = "Monday"
+        case 3:
+            weekDay = "Tuesday"
+        case 4:
+            weekDay = "Wednesday"
+        case 5:
+            weekDay = "Thursday"
+        case 6:
+            weekDay = "Friday"
+        case 7:
+            weekDay = "Saturday"
+        case 1:
+            weekDay = "Sunday"
+        default:
+            weekDay = "Unknown"
+            
+        }
+        
+        return weekDay
+        
+    }
+    
+    func showBusinessDetails(_ id: String, completionHandler: @escaping ([RestaurantHours]) -> ()) {
+        
+        let headers = ["Authorization": "Bearer Y43yqZUkj6vah5sgOHU-1PFN2qpapJsSwXZYScYTo0-nK9w5Y3lDvrdRJeG1IpQAADep0GrRL5ZDv6ybln03nIVzP7BL_IzAf_s7Wj5_QLPOO6oXns-nJe3-kIPiWHYx"]
+        var restaurantHoursEmbedded = [RestaurantHours]()
+        
+        Alamofire.request("https://api.yelp.com/v3/businesses/\(id)", headers: headers).responseJSON { (Response) in
+            
+            if let value = Response.result.value {
+                
+                let json = JSON(value)
+                
+                for day in json["hours"].arrayValue {
+                    
+                    for thingy in day["open"].arrayValue {
+                        
+                        let isOvernight = thingy["is_overnight"].boolValue
+                        
+                        let openTime = self.timeConverter(thingy["start"].stringValue)
+                        let endTime = self.timeConverter(thingy["end"].stringValue)
+                        
+                        var weekDay = String()
+                        
+                        switch thingy["day"].intValue {
+                            
+                        case 0:
+                            weekDay = "Monday"
+                        case 1:
+                            weekDay = "Tuesday"
+                        case 2:
+                            weekDay = "Wednesday"
+                        case 3:
+                            weekDay = "Thursday"
+                        case 4:
+                            weekDay = "Friday"
+                        case 5:
+                            weekDay = "Saturday"
+                        case 6:
+                            weekDay = "Sunday"
+                        default:
+                            weekDay = "Unknown"
+                            
+                        }
+                        
+                        let dayToUse = RestaurantHours(day: weekDay, isOvernight: isOvernight, startTime: openTime, endTime: endTime)
+                        restaurantHoursEmbedded.append(dayToUse)
+                        
+                    }
+                    
+                }
+                
+                completionHandler(restaurantHoursEmbedded)
+            }
+            
+        }
+        
+    }
+    
+    func timeConverter(_ time: String) -> String {
+        
+        var timeToUse = time
+        timeToUse.insert(":", at: time.index(time.startIndex, offsetBy: 2))
+        
+        let timeFormatter = DateFormatter()
+        timeFormatter.dateFormat = "HH:mm"
+        let dateToUse = timeFormatter.date(from: timeToUse)
+        
+        timeFormatter.dateFormat = "h:mm a"
+        let date12 = timeFormatter.string(from: dateToUse!)
+        
+        return date12
+        
         
     }
     

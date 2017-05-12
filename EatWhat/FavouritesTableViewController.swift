@@ -21,6 +21,7 @@ class FavouritesCell: UITableViewCell {
 class FavouritesTableViewController: UITableViewController {
     
     var favourites = [Restaurantt]()
+    var blurEffectView = UIVisualEffectView()
     let defaults = UserDefaults.standard
     
     @IBAction func unwindToMain(segue: UIStoryboardSegue) {}
@@ -34,6 +35,7 @@ class FavouritesTableViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
         
+        addBlur()
         loadFavourites()
         
         
@@ -42,6 +44,17 @@ class FavouritesTableViewController: UITableViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func addBlur() {
+        
+        self.tableView.backgroundColor = UIColor.clear
+        let blurEffect = UIBlurEffect(style: .light)
+        blurEffectView = UIVisualEffectView(effect: blurEffect)
+        tableView.separatorEffect = UIVibrancyEffect(blurEffect: blurEffect)
+        
+        self.tableView.backgroundView = blurEffectView
+        
     }
     
     func loadFavourites() {
@@ -74,12 +87,15 @@ class FavouritesTableViewController: UITableViewController {
     
     func loadSadView() {
         
-        var noDataLabel: UILabel = UILabel(frame: CGRect(x: 0, y: 0, width: self.tableView.bounds.width, height: self.tableView.bounds.height))
+        let noDataLabel: UILabel = UILabel(frame: CGRect(x: 0, y: 0, width: self.tableView.bounds.width, height: self.tableView.bounds.height))
+        noDataLabel.font = UIFont.systemFont(ofSize: 50, weight: UIFontWeightLight)
         noDataLabel.text = "No Favourites"
-        noDataLabel.textColor = UIColor(red: 22.0/255.0, green: 106.0/255.0, blue: 176.0/255.0, alpha: 1.0)
+        noDataLabel.textColor = UIColor.black
         noDataLabel.textAlignment = .center
         self.tableView.separatorColor = UIColor.clear
-        self.tableView.backgroundView = noDataLabel
+        self.tableView.separatorEffect = nil
+        self.blurEffectView.addSubview(noDataLabel)
+        // self.tableView.backgroundView = noDataLabel
         
     }
 
@@ -177,14 +193,25 @@ class FavouritesTableViewController: UITableViewController {
     }
     */
 
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        
+        if segue.identifier == "showDetail" {
+            
+            if let indexPath = self.tableView.indexPathForSelectedRow {
+                
+                let restaurantToSend = favourites[indexPath.row]
+                
+                let controller = segue.destination as! FavouritesDetailTableViewController
+                
+                controller.restaurant = restaurantToSend
+                
+            }
+            
+        }
+        
     }
-    */
 
 }

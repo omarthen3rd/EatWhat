@@ -15,11 +15,12 @@
 		5639390A1E92F3860029A16F /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 563939081E92F3860029A16F /* Alamofire.framework */; };
 		5642C8B71E970D98000C4467 /* RestaurantCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5642C8B61E970D98000C4467 /* RestaurantCard.swift */; };
 		5642C8B91E970DA3000C4467 /* RestaurantCard.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5642C8B81E970DA3000C4467 /* RestaurantCard.xib */; };
+		565573A21EBE1E04009626AA /* FavouritesDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565573A11EBE1E04009626AA /* FavouritesDetailTableViewController.swift */; };
 		5679166B1E92B2140059AA64 /* Finition.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5679166A1E92B2140059AA64 /* Finition.ttf */; };
 		5685D7131EAE948E0022E637 /* SDWebImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5685D7121EAE948E0022E637 /* SDWebImage.framework */; };
 		56A8247B1EB6434900F1F0B6 /* FavouritesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56A8247A1EB6434900F1F0B6 /* FavouritesTableViewController.swift */; };
 		56C1D5351E9282A200D9EA95 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C1D5341E9282A200D9EA95 /* AppDelegate.swift */; };
-		56C1D5371E9282A200D9EA95 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C1D5361E9282A200D9EA95 /* ViewController.swift */; };
+		56C1D5371E9282A200D9EA95 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C1D5361E9282A200D9EA95 /* MainViewController.swift */; };
 		56C1D53A1E9282A200D9EA95 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 56C1D5381E9282A200D9EA95 /* Main.storyboard */; };
 		56C1D53C1E9282A200D9EA95 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 56C1D53B1E9282A200D9EA95 /* Assets.xcassets */; };
 		56C1D53F1E9282A200D9EA95 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 56C1D53D1E9282A200D9EA95 /* LaunchScreen.storyboard */; };
@@ -57,12 +58,13 @@
 		563939091E92F3860029A16F /* Spring.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Spring.framework; path = "../../../../Developer/Xcode/DerivedData/EatWhat-cbwbqlchfzorkthdjjaxdfdbkkbv/Build/Products/Debug-iphonesimulator/Spring/Spring.framework"; sourceTree = "<group>"; };
 		5642C8B61E970D98000C4467 /* RestaurantCard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestaurantCard.swift; sourceTree = "<group>"; };
 		5642C8B81E970DA3000C4467 /* RestaurantCard.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RestaurantCard.xib; sourceTree = "<group>"; };
+		565573A11EBE1E04009626AA /* FavouritesDetailTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavouritesDetailTableViewController.swift; sourceTree = "<group>"; };
 		5679166A1E92B2140059AA64 /* Finition.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Finition.ttf; sourceTree = "<group>"; };
 		5685D7121EAE948E0022E637 /* SDWebImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDWebImage.framework; path = "Pods/../build/Debug-iphoneos/SDWebImage/SDWebImage.framework"; sourceTree = "<group>"; };
 		56A8247A1EB6434900F1F0B6 /* FavouritesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavouritesTableViewController.swift; sourceTree = "<group>"; };
 		56C1D5311E9282A200D9EA95 /* EatWhat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EatWhat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		56C1D5341E9282A200D9EA95 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		56C1D5361E9282A200D9EA95 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		56C1D5361E9282A200D9EA95 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		56C1D5391E9282A200D9EA95 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		56C1D53B1E9282A200D9EA95 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		56C1D53E1E9282A200D9EA95 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -119,6 +121,33 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		565573A31EBE1EA5009626AA /* ReviewCard */ = {
+			isa = PBXGroup;
+			children = (
+				5635356F1EAE5EB600B9172B /* ReviewCard.swift */,
+				5635356D1EAE5E9500B9172B /* ReviewCard.xib */,
+			);
+			name = ReviewCard;
+			sourceTree = "<group>";
+		};
+		565573A41EBE1EAD009626AA /* RestaurantCard */ = {
+			isa = PBXGroup;
+			children = (
+				5642C8B61E970D98000C4467 /* RestaurantCard.swift */,
+				5642C8B81E970DA3000C4467 /* RestaurantCard.xib */,
+			);
+			name = RestaurantCard;
+			sourceTree = "<group>";
+		};
+		565573A51EBE1EC7009626AA /* Favourites View */ = {
+			isa = PBXGroup;
+			children = (
+				56A8247A1EB6434900F1F0B6 /* FavouritesTableViewController.swift */,
+				565573A11EBE1E04009626AA /* FavouritesDetailTableViewController.swift */,
+			);
+			name = "Favourites View";
+			sourceTree = "<group>";
+		};
 		56C1D5281E9282A100D9EA95 = {
 			isa = PBXGroup;
 			children = (
@@ -145,14 +174,12 @@
 			isa = PBXGroup;
 			children = (
 				56C1D5341E9282A200D9EA95 /* AppDelegate.swift */,
-				56C1D5361E9282A200D9EA95 /* ViewController.swift */,
-				56C1D5381E9282A200D9EA95 /* Main.storyboard */,
-				5642C8B61E970D98000C4467 /* RestaurantCard.swift */,
-				5642C8B81E970DA3000C4467 /* RestaurantCard.xib */,
-				5635356F1EAE5EB600B9172B /* ReviewCard.swift */,
-				5635356D1EAE5E9500B9172B /* ReviewCard.xib */,
+				56C1D5361E9282A200D9EA95 /* MainViewController.swift */,
 				56F0EDF41EA1A96A0022BB51 /* SettingsTableViewController.swift */,
-				56A8247A1EB6434900F1F0B6 /* FavouritesTableViewController.swift */,
+				56C1D5381E9282A200D9EA95 /* Main.storyboard */,
+				565573A41EBE1EAD009626AA /* RestaurantCard */,
+				565573A31EBE1EA5009626AA /* ReviewCard */,
+				565573A51EBE1EC7009626AA /* Favourites View */,
 				5679166A1E92B2140059AA64 /* Finition.ttf */,
 				56C1D53B1E9282A200D9EA95 /* Assets.xcassets */,
 				56C1D53D1E9282A200D9EA95 /* LaunchScreen.storyboard */,
@@ -384,11 +411,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				56F0EDF51EA1A96A0022BB51 /* SettingsTableViewController.swift in Sources */,
-				56C1D5371E9282A200D9EA95 /* ViewController.swift in Sources */,
+				56C1D5371E9282A200D9EA95 /* MainViewController.swift in Sources */,
 				563535701EAE5EB600B9172B /* ReviewCard.swift in Sources */,
 				5642C8B71E970D98000C4467 /* RestaurantCard.swift in Sources */,
 				56C1D5351E9282A200D9EA95 /* AppDelegate.swift in Sources */,
 				56A8247B1EB6434900F1F0B6 /* FavouritesTableViewController.swift in Sources */,
+				565573A21EBE1E04009626AA /* FavouritesDetailTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import NotificationCenter
 
 class UIPickerCell: UITableViewCell {
     
@@ -23,6 +24,8 @@ class UIPickerCell: UITableViewCell {
         
         picker.dataSource = self
         picker.delegate = self
+        
+        self.selectionStyle = .default
         
         var pickerString = ""
         var pickerIndex = 0
@@ -112,12 +115,14 @@ class SettingsTableViewController: UITableViewController {
     // MARK: - Table view data source
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
     
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return "DEFAULTS"
+    }
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return 2
     }
 
@@ -133,6 +138,12 @@ class SettingsTableViewController: UITableViewController {
             cell.label.text = "Default Maps App"
             cell.appIcon?.image = UIImage(named: defaults.object(forKey: "defaultMaps") as! String) ?? UIImage(named: "Apple Maps")
             
+            // let blurEffect = UIBlurEffect(style: .light)
+            // let newSelectedView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.light))
+            // newSelectedView.frame = cell.bounds
+            
+            // cell.selectedBackgroundView = newSelectedView
+            
             return cell
             
         } else {
@@ -143,6 +154,17 @@ class SettingsTableViewController: UITableViewController {
             
             cell.label.text = "Default Browser App"
             cell.appIcon?.image = UIImage(named: defaults.object(forKey: "defaultBrowser") as! String) ?? UIImage(named: "Safari")
+            
+            let blurEffect = UIBlurEffect(style: .light)
+            let newSelectedView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.light))
+            newSelectedView.frame = cell.bounds
+            
+            let vibrantView = UIVisualEffectView(effect: UIVibrancyEffect(blurEffect: blurEffect))
+            vibrantView.frame = newSelectedView.bounds
+            
+            newSelectedView.contentView.addSubview(vibrantView)
+            
+            // cell.selectedBackgroundView = newSelectedView
             
             return cell
             

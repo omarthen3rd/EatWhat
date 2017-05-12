@@ -2,9 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:Reachability.swift">
-   </FileRef>
-   <FileRef
       location = "group:EatWhat.xcodeproj">
    </FileRef>
    <FileRef
