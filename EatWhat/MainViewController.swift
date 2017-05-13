@@ -44,6 +44,17 @@ extension String {
     
 }
 
+extension NSMutableAttributedString {
+    
+    func setColorForText(_ textToFind: String, with color: UIColor) {
+        let range = self.mutableString.range(of: textToFind, options: .caseInsensitive)
+        if range.location != NSNotFound {
+            addAttribute(NSForegroundColorAttributeName, value: color, range: range)
+        }
+    }
+    
+}
+
 extension UIImageView {
     
     func addBlurEffect(_ style: UIBlurEffectStyle) {
@@ -123,9 +134,8 @@ class Restaurantt: NSObject, NSCoding {
     var zipCode: String
     
     var transactions: [String]
-    var operationHours: [RestaurantHours]
     
-    init(name: String, website: String, imageURL: String, rating: Int, priceRange: String, phone: String, id: String, isClosed: Bool, category: String, reviewCount: Int, distance: Double, city: String, country: String, state: String, address: String, zipCode: String, transactions: [String], operationHours: [RestaurantHours]) {
+    init(name: String, website: String, imageURL: String, rating: Int, priceRange: String, phone: String, id: String, isClosed: Bool, category: String, reviewCount: Int, distance: Double, city: String, country: String, state: String, address: String, zipCode: String, transactions: [String]) {
         
         self.name = name
         self.website = website
@@ -144,7 +154,6 @@ class Restaurantt: NSObject, NSCoding {
         self.address = address
         self.zipCode = zipCode
         self.transactions = transactions
-        self.operationHours = operationHours
         
     }
     
@@ -167,9 +176,8 @@ class Restaurantt: NSObject, NSCoding {
         let address = aDecoder.decodeObject(forKey: "address") as! String
         let zipCode = aDecoder.decodeObject(forKey: "zipCode") as! String
         let transactions = aDecoder.decodeObject(forKey: "transactions") as! [String]
-        let operationHours = aDecoder.decodeObject(forKey: "operationHours") as! [RestaurantHours]
         
-        self.init(name: name, website: website, imageURL: imageURL, rating: rating, priceRange: priceRange, phone: phone, id: id, isClosed: isClosed, category: category, reviewCount: reviewCount, distance: distance, city: city, country: country, state: state, address: address, zipCode: zipCode, transactions: transactions, operationHours: operationHours)
+        self.init(name: name, website: website, imageURL: imageURL, rating: rating, priceRange: priceRange, phone: phone, id: id, isClosed: isClosed, category: category, reviewCount: reviewCount, distance: distance, city: city, country: country, state: state, address: address, zipCode: zipCode, transactions: transactions)
         
     }
     
@@ -192,7 +200,6 @@ class Restaurantt: NSObject, NSCoding {
         aCoder.encode(address, forKey: "address")
         aCoder.encode(zipCode, forKey: "zipCode")
         aCoder.encode(transactions, forKey: "transactions")
-        aCoder.encode(operationHours, forKey: "operationHours")
         
     }
     
@@ -1018,7 +1025,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
                         
                     }
                     
-                    let newRestaurant = Restaurantt(name: name, website: website, imageURL: imageURL, rating: rating, priceRange: priceRange, phone: phone, id: id, isClosed: closedBool, category: restaurantCategory, reviewCount: reviewCount, distance: distance, city: city, country: country, state: state, address: address, zipCode: zipCode, transactions: transactions, operationHours: restaurantHoursToAppend)
+                    let newRestaurant = Restaurantt(name: name, website: website, imageURL: imageURL, rating: rating, priceRange: priceRange, phone: phone, id: id, isClosed: closedBool, category: restaurantCategory, reviewCount: reviewCount, distance: distance, city: city, country: country, state: state, address: address, zipCode: zipCode, transactions: transactions)
                     self.restaurantss.append(newRestaurant)
                     
                 }

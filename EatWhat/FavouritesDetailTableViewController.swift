@@ -19,6 +19,7 @@ class FavouritesDetailTableViewController: UITableViewController {
     @IBOutlet var restaurantPriceRange: UILabel!
     @IBOutlet var restaurantLocation: UILabel!
     @IBOutlet var restaurantPhone: UILabel!
+    @IBOutlet var restaurantTimings: UILabel!
     @IBOutlet var restaurantTransactions: UILabel!
     @IBOutlet var restaurantMap: UIButton!
     @IBOutlet var resturantPhone: UIButton!
@@ -26,6 +27,7 @@ class FavouritesDetailTableViewController: UITableViewController {
     
     @IBOutlet var vibrancyLocation: UILabel!
     @IBOutlet var vibrancyPhone: UILabel!
+    @IBOutlet var vibrancyTimings: UILabel!
     @IBOutlet var vibrancyTransactions: UILabel!
     
     let defaults = UserDefaults.standard
@@ -117,6 +119,24 @@ class FavouritesDetailTableViewController: UITableViewController {
             
         }
         
+        showBusinessDetails(restaurant.id) { (arr) in
+            
+            if !(arr.isEmpty) {
+                
+                for operationDay in arr {
+                    
+                    if operationDay.day == self.getCurrentDay() {
+                        
+                        self.restaurantTimings.text = "Open Until: " + "\(operationDay.endTime)"
+                        
+                    }
+                    
+                }
+                
+            }
+            
+        }
+        
         restaurantTransactions.text = ""
         
         for transaction in restaurant.transactions {
@@ -151,6 +171,120 @@ class FavouritesDetailTableViewController: UITableViewController {
             return input
             
         }
+        
+    }
+    
+    func getCurrentDay() -> String {
+        
+        let date = Date()
+        let calendar = Calendar.current
+        
+        let timeZoneAbbr = TimeZone.current.abbreviation()
+        
+        let day = calendar.component(.weekday, from: date)
+        
+        let f = DateFormatter()
+        f.timeZone = TimeZone(abbreviation: timeZoneAbbr!)
+        
+        var weekDay = String()
+        
+        switch day {
+            
+        case 2:
+            weekDay = "Monday"
+        case 3:
+            weekDay = "Tuesday"
+        case 4:
+            weekDay = "Wednesday"
+        case 5:
+            weekDay = "Thursday"
+        case 6:
+            weekDay = "Friday"
+        case 7:
+            weekDay = "Saturday"
+        case 1:
+            weekDay = "Sunday"
+        default:
+            weekDay = "Unknown"
+            
+        }
+        
+        return weekDay
+        
+    }
+    
+    
+    func showBusinessDetails(_ id: String, completionHandler: @escaping ([RestaurantHours]) -> ()) {
+        
+        let headers = ["Authorization": "Bearer Y43yqZUkj6vah5sgOHU-1PFN2qpapJsSwXZYScYTo0-nK9w5Y3lDvrdRJeG1IpQAADep0GrRL5ZDv6ybln03nIVzP7BL_IzAf_s7Wj5_QLPOO6oXns-nJe3-kIPiWHYx"]
+        var restaurantHoursEmbedded = [RestaurantHours]()
+        
+        Alamofire.request("https://api.yelp.com/v3/businesses/\(id)", headers: headers).responseJSON { (Response) in
+            
+            if let value = Response.result.value {
+                
+                let json = JSON(value)
+                
+                for day in json["hours"].arrayValue {
+                    
+                    for thingy in day["open"].arrayValue {
+                        
+                        let isOvernight = thingy["is_overnight"].boolValue
+                        
+                        let openTime = self.timeConverter(thingy["start"].stringValue)
+                        let endTime = self.timeConverter(thingy["end"].stringValue)
+                        
+                        var weekDay = String()
+                        
+                        switch thingy["day"].intValue {
+                            
+                        case 0:
+                            weekDay = "Monday"
+                        case 1:
+                            weekDay = "Tuesday"
+                        case 2:
+                            weekDay = "Wednesday"
+                        case 3:
+                            weekDay = "Thursday"
+                        case 4:
+                            weekDay = "Friday"
+                        case 5:
+                            weekDay = "Saturday"
+                        case 6:
+                            weekDay = "Sunday"
+                        default:
+                            weekDay = "Unknown"
+                            
+                        }
+                        
+                        let dayToUse = RestaurantHours(day: weekDay, isOvernight: isOvernight, startTime: openTime, endTime: endTime)
+                        restaurantHoursEmbedded.append(dayToUse)
+                        
+                    }
+                    
+                }
+                
+                completionHandler(restaurantHoursEmbedded)
+            }
+            
+        }
+        
+    }
+    
+    func timeConverter(_ time: String) -> String {
+        
+        var timeToUse = time
+        timeToUse.insert(":", at: time.index(time.startIndex, offsetBy: 2))
+        
+        let timeFormatter = DateFormatter()
+        timeFormatter.dateFormat = "HH:mm"
+        let dateToUse = timeFormatter.date(from: timeToUse)
+        
+        timeFormatter.dateFormat = "h:mm a"
+        let date12 = timeFormatter.string(from: dateToUse!)
+        
+        return date12
+        
         
     }
     

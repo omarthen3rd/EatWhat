@@ -216,9 +216,7 @@ class RestaurantCard: UIView, UIWebViewDelegate {
             }
             
             showBusinessDetails(restaurant.id) { (arr) in
-                
-                print("ran first")
-                
+                                
                 if !(arr.isEmpty) {
                     
                     for operationDay in arr {
@@ -231,34 +229,9 @@ class RestaurantCard: UIView, UIWebViewDelegate {
                         
                     }
                     
-                } else {
-                    
-                    print("arrIsEmpty")
-                    
                 }
                 
             }
-            
-            /*
-            let currentDay = getCurrentDay()
-            
-            for day in restaurant.operationHours {
-                
-                print(day.day)
-                
-                if day.day == currentDay {
-                    
-                    restaurantTimings.text = "Open Until: " + "\(day.endTime)"
-                    print("ran if")
-                    
-                } else {
-                    
-                    restaurantTimings.text = "Timings Unavailable"
-                    print("ran else")
-                    
-                }
-                
-            } */
             
             restaurantTransactions.text = ""
             
