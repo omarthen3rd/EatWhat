@@ -48,6 +48,8 @@ class FavouritesTableViewController: UITableViewController {
     
     func addBlur() {
         
+        tableView.tableFooterView = UIView(frame: .zero)
+        
         self.tableView.backgroundColor = UIColor.clear
         let blurEffect = UIBlurEffect(style: .light)
         blurEffectView = UIVisualEffectView(effect: blurEffect)
@@ -127,6 +129,15 @@ class FavouritesTableViewController: UITableViewController {
         cell.restaurantTitle?.text = favourites[indexPath.row].name
         cell.restaurantCategory?.text = favourites[indexPath.row].category
         cell.restaurantStars.rating = Double(favourites[indexPath.row].rating)
+        
+        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.regular)
+        let newSelectedView = UIVisualEffectView(effect: blurEffect)
+        newSelectedView.frame = cell.bounds
+        // let emptyViewToAdd = UIView(frame: cell.bounds)
+        // emptyViewToAdd.backgroundColor = UIColor.white
+        // newSelectedView.contentView.addSubview(emptyViewToAdd)
+        
+        cell.selectedBackgroundView = newSelectedView
         
         if let url = URL(string: favourites[indexPath.row].imageURL) {
             

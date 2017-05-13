@@ -468,8 +468,9 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
         }
         
         scrollView.contentSize = CGSize(width: self.vibrancyView.bounds.width, height: buttonY)
-                
+        
         self.loadCard(likeButton)
+        // self.handleSelectedRestaurant(self.scrollView.subviews[0] as! UIButton, true)
         
     }
     
@@ -724,6 +725,8 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
             
             button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 25)
             button.backgroundColor = UIColor.darkGray
+            self.dislikeButton.isEnabled = false
+            self.likeButton.isEnabled = true
             
         } else {
             

@@ -138,12 +138,6 @@ class SettingsTableViewController: UITableViewController {
             cell.label.text = "Default Maps App"
             cell.appIcon?.image = UIImage(named: defaults.object(forKey: "defaultMaps") as! String) ?? UIImage(named: "Apple Maps")
             
-            // let blurEffect = UIBlurEffect(style: .light)
-            // let newSelectedView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.light))
-            // newSelectedView.frame = cell.bounds
-            
-            // cell.selectedBackgroundView = newSelectedView
-            
             return cell
             
         } else {
@@ -154,17 +148,6 @@ class SettingsTableViewController: UITableViewController {
             
             cell.label.text = "Default Browser App"
             cell.appIcon?.image = UIImage(named: defaults.object(forKey: "defaultBrowser") as! String) ?? UIImage(named: "Safari")
-            
-            let blurEffect = UIBlurEffect(style: .light)
-            let newSelectedView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.light))
-            newSelectedView.frame = cell.bounds
-            
-            let vibrantView = UIVisualEffectView(effect: UIVibrancyEffect(blurEffect: blurEffect))
-            vibrantView.frame = newSelectedView.bounds
-            
-            newSelectedView.contentView.addSubview(vibrantView)
-            
-            // cell.selectedBackgroundView = newSelectedView
             
             return cell
             

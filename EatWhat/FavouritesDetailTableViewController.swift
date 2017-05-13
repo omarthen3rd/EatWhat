@@ -9,6 +9,8 @@
 import UIKit
 import Cosmos
 import PhoneNumberKit
+import Alamofire
+import SwiftyJSON
 
 class FavouritesDetailTableViewController: UITableViewController {
 
@@ -32,6 +34,8 @@ class FavouritesDetailTableViewController: UITableViewController {
     
     let defaults = UserDefaults.standard
     var phoneNumberKit = PhoneNumberKit()
+    
+    typealias TimeOfDay = (hour: Int, minute: Int)
     
     var restaurant: Restaurantt! {
         
@@ -127,6 +131,7 @@ class FavouritesDetailTableViewController: UITableViewController {
                     
                     if operationDay.day == self.getCurrentDay() {
                         
+                        // self.compareDates(operationDay.startTime)
                         self.restaurantTimings.text = "Open Until: " + "\(operationDay.endTime)"
                         
                     }
@@ -171,6 +176,34 @@ class FavouritesDetailTableViewController: UITableViewController {
             return input
             
         }
+        
+    }
+    
+    func compareDates(_ time: String) {
+        
+        let calendar = Calendar.autoupdatingCurrent
+        
+        var timeToUse = time
+        timeToUse.insert(":", at: time.index(time.startIndex, offsetBy: 2))
+        
+        let timeFormatter = DateFormatter()
+        timeFormatter.dateFormat = "HH:mm"
+        let dateToUse = timeFormatter.date(from: timeToUse)
+        
+        let components = calendar.dateComponents([.hour, .minute], from: dateToUse!)
+        let hourToUse = components.hour
+        let minuteToUse = components.minute
+        
+        let components2 = calendar.dateComponents([.hour, .minute], from: Date())
+        let hourToUse2 = components2.hour
+        let minuteToUse2 = components2.minute
+        
+        var timeOfDay = [TimeOfDay]()
+        timeOfDay.append((hourToUse!, minuteToUse!))
+        timeOfDay.append((hourToUse2!, minuteToUse2!))
+        
+        print(timeOfDay)
+        
         
     }
     
