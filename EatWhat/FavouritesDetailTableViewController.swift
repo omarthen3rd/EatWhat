@@ -27,6 +27,7 @@ class FavouritesDetailTableViewController: UITableViewController {
     @IBOutlet var resturantPhone: UIButton!
     @IBOutlet var restaurantBrowser: UIButton!
     
+    @IBOutlet var virbrantIconView: UIView!
     @IBOutlet var vibrancyLocation: UILabel!
     @IBOutlet var vibrancyPhone: UILabel!
     @IBOutlet var vibrancyTimings: UILabel!
@@ -34,6 +35,7 @@ class FavouritesDetailTableViewController: UITableViewController {
     
     let defaults = UserDefaults.standard
     var phoneNumberKit = PhoneNumberKit()
+    var blurView = UIVisualEffectView()
     
     typealias TimeOfDay = (hour: Int, minute: Int)
     
@@ -51,13 +53,19 @@ class FavouritesDetailTableViewController: UITableViewController {
         super.viewDidLoad()
         
         setupView()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        self.tableView.estimatedRowHeight = 400
+        self.tableView.rowHeight = UITableViewAutomaticDimension
+        self.tableView.setNeedsLayout()
+        self.tableView.layoutIfNeeded()
+        self.tableView.reloadData()
+    }
+
     
     func setupView() {
         
@@ -74,7 +82,7 @@ class FavouritesDetailTableViewController: UITableViewController {
             tableView.backgroundColor = UIColor.clear
             
             let blurEffect = UIBlurEffect(style: .dark)
-            let blurView = UIVisualEffectView(effect: blurEffect)
+            blurView = UIVisualEffectView(effect: blurEffect)
             blurView.frame = backgroundImage.bounds
             backgroundImage.addSubview(blurView)
             
@@ -157,11 +165,70 @@ class FavouritesDetailTableViewController: UITableViewController {
             
         }
         
+        /*
+         
+        self.restaurantTitle.alpha = 0.0
+        self.restaurantStars.alpha = 0.0
+        self.restaurantCategory.alpha = 0.0
+        self.restaurantPriceRange.alpha = 0.0
+        self.restaurantLocation.alpha = 0.0
+        self.restaurantPhone.alpha = 0.0
+        self.restaurantTimings.alpha = 0.0
+        self.restaurantTransactions.alpha = 0.0
+        self.vibrancyPhone.alpha = 0.0
+        self.vibrancyLocation.alpha = 0.0
+        self.vibrancyTimings.alpha = 0.0
+        self.vibrancyTransactions.alpha = 0.0
+        self.virbrantIconView.alpha = 0.0
+        
+        self.restaurantMap.alpha = 0.0
+        self.restaurantPhone.alpha = 0.0
+        self.restaurantBrowser.alpha = 0.0
+        
+        UIView.animate(withDuration: 0.5, animations: {
+            
+            self.blurView.effect = UIBlurEffect(style: .dark)
+            /*
+            self.restaurantTitle.alpha = 1.0
+            self.restaurantStars.alpha = 1.0
+            self.restaurantCategory.alpha = 1.0
+            self.restaurantPriceRange.alpha = 1.0
+            self.restaurantLocation.alpha = 1.0
+            self.restaurantPhone.alpha = 1.0
+            self.restaurantTimings.alpha = 1.0
+            self.restaurantTransactions.alpha = 1.0
+            self.vibrancyPhone.alpha = 1.0
+            self.vibrancyLocation.alpha = 1.0
+            self.vibrancyTimings.alpha = 1.0
+            self.vibrancyTransactions.alpha = 1.0
+            self.virbrantIconView.alpha = 1.0
+            
+            self.restaurantMap.alpha = 1.0
+            self.restaurantPhone.alpha = 1.0
+            self.restaurantBrowser.alpha = 1.0
+            */
+ 
+        }) { (success) in
+            
+            
+            
+        }
+ 
+        */
+        
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    func showLoadingView() {
+        
+        let loadingView = UIView(frame: self.view.bounds)
+        loadingView.backgroundColor = UIColor.darkGray
+        
+        let activityIndicator = UIActivityIndicatorView(frame: loadingView.frame)
+        activityIndicator.activityIndicatorViewStyle = .whiteLarge
+        
+        loadingView.addSubview(activityIndicator)
+        self.view.addSubview(loadingView)
+        
     }
 
     func reduceAddress(input: String) -> String {
@@ -333,6 +400,12 @@ class FavouritesDetailTableViewController: UITableViewController {
         return 3
     }
 
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        
+        return UITableViewAutomaticDimension
+        
+    }
+    
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

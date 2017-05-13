@@ -22,22 +22,21 @@ class FavouritesTableViewController: UITableViewController {
     
     var favourites = [Restaurantt]()
     var blurEffectView = UIVisualEffectView()
+    var noDataLabel = UILabel()
     let defaults = UserDefaults.standard
     
     @IBAction func unwindToMain(segue: UIStoryboardSegue) {}
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
         
         addBlur()
         loadFavourites()
-        
         
     }
 
@@ -56,7 +55,6 @@ class FavouritesTableViewController: UITableViewController {
         tableView.separatorEffect = UIVibrancyEffect(blurEffect: blurEffect)
         
         self.tableView.backgroundView = blurEffectView
-        
     }
     
     func loadFavourites() {
@@ -89,7 +87,7 @@ class FavouritesTableViewController: UITableViewController {
     
     func loadSadView() {
         
-        let noDataLabel: UILabel = UILabel(frame: CGRect(x: 0, y: 0, width: self.tableView.bounds.width, height: self.tableView.bounds.height))
+        noDataLabel = UILabel(frame: CGRect(x: 0, y: 0, width: self.tableView.bounds.width, height: self.tableView.bounds.height))
         noDataLabel.font = UIFont.systemFont(ofSize: 50, weight: UIFontWeightLight)
         noDataLabel.text = "No Favourites"
         noDataLabel.textColor = UIColor.black
@@ -106,6 +104,10 @@ class FavouritesTableViewController: UITableViewController {
     override func numberOfSections(in tableView: UITableView) -> Int {
         
         if favourites.count > 0 {
+            
+            if self.blurEffectView.subviews.contains(noDataLabel) {
+                self.noDataLabel.removeFromSuperview()
+            }
             
             return 1
             
@@ -133,9 +135,6 @@ class FavouritesTableViewController: UITableViewController {
         let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.regular)
         let newSelectedView = UIVisualEffectView(effect: blurEffect)
         newSelectedView.frame = cell.bounds
-        // let emptyViewToAdd = UIView(frame: cell.bounds)
-        // emptyViewToAdd.backgroundColor = UIColor.white
-        // newSelectedView.contentView.addSubview(emptyViewToAdd)
         
         cell.selectedBackgroundView = newSelectedView
         
@@ -152,7 +151,7 @@ class FavouritesTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         
-        let favourite = UITableViewRowAction(style: .normal, title: "Delete") { (action, index) in
+        let favourite = UITableViewRowAction(style: .default, title: "Delete") { (action, index) in
             
             self.favourites.remove(at: indexPath.row)
             
@@ -166,11 +165,10 @@ class FavouritesTableViewController: UITableViewController {
         
         favourite.backgroundColor = UIColor.red
         
-        
         return [favourite]
         
     }
-
+    
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         // Return false if you do not want the specified item to be editable.

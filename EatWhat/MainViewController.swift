@@ -55,6 +55,19 @@ extension NSMutableAttributedString {
     
 }
 
+extension UIButton {
+    
+    func setBackgroundColor(color: UIColor, forState: UIControlState) {
+        UIGraphicsBeginImageContext(CGSize(width: 1, height: 1))
+        UIGraphicsGetCurrentContext()!.setFillColor(color.cgColor)
+        UIGraphicsGetCurrentContext()!.fill(CGRect(x: 0, y: 0, width: 1, height: 1))
+        let colorImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        self.setBackgroundImage(colorImage, for: forState)
+    }
+
+}
+
 extension UIImageView {
     
     func addBlurEffect(_ style: UIBlurEffectStyle) {
@@ -217,12 +230,18 @@ struct RestaurantReview {
 
 class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerDelegate {
 
+    @IBOutlet var wallpaperVisualView: UIVisualEffectView!
     @IBOutlet weak var mainLabel: UILabel!
     @IBOutlet var dislikeButton: UIButton!
     @IBOutlet var likeButton: UIButton!
     @IBOutlet weak var middleButton: UIButton!
     @IBOutlet weak var containerVisualEffectView: UIVisualEffectView!
     @IBOutlet weak var vibrancyView: UIView!
+    
+    @IBOutlet var alertView: UIVisualEffectView!
+    @IBOutlet var alertViewImage: UIImageView!
+    @IBOutlet var alertViewLabel: UILabel!
+    
     @IBOutlet var containerView: UIView!
     @IBOutlet var noresultsLabel: UILabel!
     @IBOutlet var spinningView: UIActivityIndicatorView!
@@ -275,6 +294,15 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        wallpaperVisualView.effect = nil
+        self.spinningView.startAnimating()
+        
+        UIView.animate(withDuration: 1.5, animations: {
+            
+            self.wallpaperVisualView.effect = UIBlurEffect(style: .light)
+            
+        }, completion: nil)
+        
         let internetIsAvailable = isInternetAvailable()
         
         if internetIsAvailable {
@@ -297,6 +325,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
     
     func loadCard(_ button: UIButton) {
         
+        self.middleButton.isUserInteractionEnabled = false
         let doubleTapGesture = UITapGestureRecognizer(target: self, action: #selector(self.addToFavourites))
         doubleTapGesture.numberOfTapsRequired = 2
         self.card = RestaurantCard(frame: CGRect(x: 0, y: 0, width: 343, height: 449))
@@ -305,6 +334,8 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
         self.card.addGestureRecognizer(doubleTapGesture)
         
         if button.tag == 1 {
+            
+            // like / right button
             
             self.card.alpha = 0.0
             self.card.frame.origin.y = 109
@@ -337,11 +368,16 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
                     
                 }
                 
+                self.spinningView.stopAnimating()
                 button.isUserInteractionEnabled = true
+                self.middleButton.isUserInteractionEnabled = true
+                self.dislikeButton.isUserInteractionEnabled = true
                 
             })
             
         } else {
+            
+            // dislike / left
             
             self.card.alpha = 0.0
             self.card.frame.origin.y = 109
@@ -367,18 +403,20 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
             }, completion: { (success) in
                 
                 button.isUserInteractionEnabled = true
+                self.middleButton.isUserInteractionEnabled = true
+                self.likeButton.isUserInteractionEnabled = true
                 
             })
             
         }
         
         if self.restaurantIndex == 0 {
-            self.spinningView.stopAnimating()
+            // self.spinningView.stopAnimating()
             self.noresultsLabel.isHidden = true
             self.likeButton.isEnabled = true
             self.dislikeButton.isEnabled = false
         } else {
-            self.spinningView.stopAnimating()
+            // self.spinningView.stopAnimating()
             self.noresultsLabel.isHidden = true
             self.likeButton.isEnabled = true
             self.dislikeButton.isEnabled = true
@@ -463,6 +501,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
         for category in categories {
             let button = createButton(category, y: buttonY)
             button.addTarget(self, action: #selector(self.handleSelectedRestaurant(_:_:)), for: .touchUpInside)
+            button.setBackgroundColor(color: UIColor.darkGray, forState: .highlighted)
             buttonY += 40
             self.scrollView.addSubview(button)
         }
@@ -584,6 +623,8 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
                         
             // no favs, encode arr and replace
             
+            self.showAlertView("Added To Favourites")
+            
             let encodedData: Data = NSKeyedArchiver.archivedData(withRootObject: self.favouriteRestaurants)
             defaults.set(encodedData, forKey: "favourites")
             defaults.synchronize()
@@ -598,12 +639,14 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
                     
                     if !(decodedRestaurants.contains(where: { $0.id == self.restaurantss[self.restaurantIndex].id })) {
                         
+                        self.showAlertView("Added To Favourites")
                         decodedRestaurants.append(self.restaurantss[self.restaurantIndex])
                         
                     } else {
                         
-                        let alert = Alert()
-                        alert.msg(title: "Already In Favourites", message: "The restaurant you favourited is already in your favourites.")
+                        self.showAlertView("Already In Favourites")
+                        // let alert = Alert()
+                        // alert.msg(title: "Already In Favourites", message: "The restaurant you favourited is already in your favourites.")
                         
                         
                     }
@@ -834,6 +877,46 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
             })
             
             self.viewIsOpen = true
+            
+        }
+        
+    }
+    
+    func showAlertView(_ textToUse: String) {
+        
+        self.alertViewLabel.text = textToUse
+        self.alertViewLabel.alpha = 0.0
+        self.alertViewImage.image = UIImage(named: "favourite")?.withRenderingMode(.alwaysTemplate)
+        self.alertViewImage.alpha = 0.0
+        self.alertView.isHidden = false
+
+        self.view.bringSubview(toFront: self.alertView)
+        
+        UIView.animate(withDuration: 0.5, animations: {
+            
+            self.alertView.effect = UIBlurEffect(style: .dark)
+            self.alertViewLabel.alpha = 1.0
+            self.alertViewImage.alpha = 1.0
+            
+        }) { (success) in
+            
+            self.dismissAlertView()
+            
+        }
+        
+    }
+    
+    func dismissAlertView() {
+        
+        UIView.animate(withDuration: 0.5, delay: 1, options: .curveEaseIn, animations: { 
+            
+            self.alertView.effect = nil
+            self.alertViewLabel.alpha = 0.0
+            self.alertViewImage.alpha = 0.0
+            
+        }) { (success) in
+            
+            self.alertView.isHidden = true
             
         }
         
