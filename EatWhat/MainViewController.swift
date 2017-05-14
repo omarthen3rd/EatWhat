@@ -333,7 +333,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
     }
     
     func loadCard(_ button: UIButton) {
-        
+                
         self.middleButton.isUserInteractionEnabled = false
         let doubleTapGesture = UITapGestureRecognizer(target: self, action: #selector(self.addToFavourites))
         doubleTapGesture.numberOfTapsRequired = 2
@@ -436,7 +436,6 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
     func loadInterface() {
         
         self.spinningView.hidesWhenStopped = true
-        self.spinningView.startAnimating()
         
         dislikeButton.addTarget(self, action: #selector(self.leftTap), for: .touchUpInside)
         dislikeButton.tag = 0
@@ -521,7 +520,6 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
         
         if let allTypesButton = scrollView.subviews[0] as? UIButton {
             
-            print(allTypesButton.currentTitle!)
             self.handleSelectedRestaurant(allTypesButton, true)
             
         }
@@ -866,13 +864,11 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
                 self.containerView.isHidden = true
                 self.likeButton.isEnabled = true
                 if self.restaurantIndex == 0 || self.restaurantss.isEmpty {
-                    print("empty or first")
                     self.dislikeButton.isEnabled = false
                     if self.restaurantss.isEmpty {
                         self.likeButton.isEnabled = false
                     }
                 } else if self.restaurantss.endIndex == self.restaurantIndex {
-                    print("reached last")
                     self.dislikeButton.isEnabled = true
                     self.likeButton.isEnabled = false
                 } else {
@@ -979,19 +975,13 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
             
             self.restaurantss.removeAll()
             self.restaurantIndex = 0
-            self.getCategories(completionHandler: { (categoriesSuccess) in
+            self.getCategories()
+            self.searchBusinesses(self.lat, self.long, completetionHandler: { (success) in
                 
-                if categoriesSuccess {
+                if success {
                     
-                    self.searchBusinesses(self.lat, self.long, completetionHandler: { (success) in
-                        
-                        if success {
-                            self.loadInterface()
-                        }
-                    })
-                    
+                    self.loadInterface()
                 }
-                
             })
         }
     }
@@ -1025,7 +1015,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
         
     }
     
-    func getCategories(completionHandler: @escaping (Bool) -> ()) {
+    func getCategories() {
         
         let url = "https://www.yelp.com/developers/documentation/v3/all_category_list/categories.json"
         
@@ -1050,7 +1040,6 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
                 self.categories.insert("All Types", at: 0)
                 self.selectedCategory = self.categories.joined(separator: ", ")
                 
-                completionHandler(true)
             }
             
         }

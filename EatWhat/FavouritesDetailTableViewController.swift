@@ -116,6 +116,7 @@ class FavouritesDetailTableViewController: UITableViewController {
         restaurantCategory.text = restaurant.category
         restaurantStars.rating = Double(restaurant.rating)
         restaurantPriceRange.text = restaurant.priceRange
+        restaurantPriceRange.textColor = UIColor.green
         let address = reduceAddress(input: restaurant.address)
         restaurantLocation.text = "\(address) \n\(restaurant.city), \(restaurant.state) \n\(restaurant.country)"
         
@@ -139,8 +140,12 @@ class FavouritesDetailTableViewController: UITableViewController {
                     
                     if operationDay.day == self.getCurrentDay() {
                         
-                        // self.compareDates(operationDay.startTime)
-                        self.restaurantTimings.text = "Open Until: " + "\(operationDay.endTime)"
+                        let stringToUse = NSMutableAttributedString(string: "Open Until: " + "\(operationDay.endTime)")
+                        stringToUse.setColorForText("Open", with: .green)
+                        stringToUse.setBoldForText("Open")
+                        self.restaurantTimings.attributedText = stringToUse
+                        
+                        // self.restaurantTimings.text = "Open Until: " + "\(operationDay.endTime)"
                         
                     }
                     
