@@ -53,6 +53,15 @@ extension NSMutableAttributedString {
         }
     }
     
+    func setBoldForText(_ textToFind: String) {
+        let range = self.mutableString.range(of: textToFind, options: .caseInsensitive)
+        if range.location != NSNotFound {
+            let attrs = [NSFontAttributeName : UIFont.boldSystemFont(ofSize: 18)]
+            addAttributes(attrs, range: range)
+        }
+        
+    }
+    
 }
 
 extension UIButton {
@@ -509,6 +518,14 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
         scrollView.contentSize = CGSize(width: self.vibrancyView.bounds.width, height: buttonY)
         
         self.loadCard(likeButton)
+        
+        if let allTypesButton = scrollView.subviews[0] as? UIButton {
+            
+            print(allTypesButton.currentTitle!)
+            self.handleSelectedRestaurant(allTypesButton, true)
+            
+        }
+        
         // self.handleSelectedRestaurant(self.scrollView.subviews[0] as! UIButton, true)
         
     }
@@ -849,10 +866,15 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
                 self.containerView.isHidden = true
                 self.likeButton.isEnabled = true
                 if self.restaurantIndex == 0 || self.restaurantss.isEmpty {
+                    print("empty or first")
                     self.dislikeButton.isEnabled = false
                     if self.restaurantss.isEmpty {
                         self.likeButton.isEnabled = false
                     }
+                } else if self.restaurantss.endIndex == self.restaurantIndex {
+                    print("reached last")
+                    self.dislikeButton.isEnabled = true
+                    self.likeButton.isEnabled = false
                 } else {
                     self.dislikeButton.isEnabled = true
                 }
@@ -957,14 +979,20 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
             
             self.restaurantss.removeAll()
             self.restaurantIndex = 0
-            self.getCategories()
-            self.searchBusinesses(self.lat, self.long, completetionHandler: { (success) in
+            self.getCategories(completionHandler: { (categoriesSuccess) in
                 
-                if success {
-                    self.loadInterface()
+                if categoriesSuccess {
+                    
+                    self.searchBusinesses(self.lat, self.long, completetionHandler: { (success) in
+                        
+                        if success {
+                            self.loadInterface()
+                        }
+                    })
+                    
                 }
+                
             })
-            
         }
     }
     
@@ -997,7 +1025,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
         
     }
     
-    func getCategories() {
+    func getCategories(completionHandler: @escaping (Bool) -> ()) {
         
         let url = "https://www.yelp.com/developers/documentation/v3/all_category_list/categories.json"
         
@@ -1022,6 +1050,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
                 self.categories.insert("All Types", at: 0)
                 self.selectedCategory = self.categories.joined(separator: ", ")
                 
+                completionHandler(true)
             }
             
         }

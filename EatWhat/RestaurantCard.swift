@@ -114,13 +114,13 @@ class RestaurantCard: UIView, UIWebViewDelegate {
             self.reviewCard3.layer.shadowRadius = 10.0
             self.reviewCard3.layer.shadowOpacity = 0.3
             
-            loadReviews(id: restaurant.id) { (success) in
+            /* loadReviews(id: restaurant.id) { (success) in
                                 
                 self.reviewCard.restaurantReview = self.restaurantReviews[0]
                 self.reviewCard2.restaurantReview = self.restaurantReviews[1]
                 self.reviewCard3.restaurantReview = self.restaurantReviews[2]
                 
-            }
+            } */
             
             if defaults.object(forKey: "defaultMaps") == nil {
                 
@@ -172,6 +172,7 @@ class RestaurantCard: UIView, UIWebViewDelegate {
                 restaurantPriceRange.text = "No Price Range Available"
             } else {
                 restaurantPriceRange.text = restaurant.priceRange
+                restaurantPriceRange.textColor = UIColor.green
             }
             
             let distanceMeters = Measurement(value: restaurant.distance, unit: UnitLength.meters)
@@ -223,7 +224,12 @@ class RestaurantCard: UIView, UIWebViewDelegate {
                         
                         if operationDay.day == self.getCurrentDay() {
                             
-                            self.restaurantTimings.text = "Open Until: " + "\(operationDay.endTime)"
+                            let stringToUse = NSMutableAttributedString(string: "Open Until: " + "\(operationDay.endTime)")
+                            stringToUse.setColorForText("Open", with: .green)
+                            stringToUse.setBoldForText("Open")
+                            self.restaurantTimings.attributedText = stringToUse
+                            
+                            // self.restaurantTimings.text = "Open Until: " + "\(operationDay.endTime)"
                             
                         }
                         
