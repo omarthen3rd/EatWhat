@@ -237,8 +237,10 @@ struct RestaurantReview {
     
 }
 
-class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerDelegate {
+class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerDelegate, SettingsDelegate {
 
+    @IBOutlet var settingsButton: UIButton!
+    @IBOutlet var favouritesViewButton: UIButton!
     @IBOutlet var wallpaperVisualView: UIVisualEffectView!
     @IBOutlet weak var mainLabel: UILabel!
     @IBOutlet var dislikeButton: UIButton!
@@ -303,12 +305,29 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
         wallpaperVisualView.effect = nil
-        self.spinningView.startAnimating()
+        spinningView.startAnimating()
+        
+        settingsButton.alpha = 0.0
+        mainLabel.alpha = 0.0
+        favouritesViewButton.alpha = 0.0
+        
+        dislikeButton.alpha = 0.0
+        likeButton.alpha = 0.0
+        middleButton.alpha = 0.0
         
         UIView.animate(withDuration: 1.5, animations: {
             
             self.wallpaperVisualView.effect = UIBlurEffect(style: .light)
+            
+            self.settingsButton.alpha = 1.0
+            self.mainLabel.alpha = 1.0
+            self.favouritesViewButton.alpha = 1.0
+            
+            self.dislikeButton.alpha = 1.0
+            self.likeButton.alpha = 1.0
+            self.middleButton.alpha = 1.0
             
         }, completion: nil)
         
@@ -1050,16 +1069,18 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
         
         let headers: HTTPHeaders = ["Authorization": "Bearer Y43yqZUkj6vah5sgOHU-1PFN2qpapJsSwXZYScYTo0-nK9w5Y3lDvrdRJeG1IpQAADep0GrRL5ZDv6ybln03nIVzP7BL_IzAf_s7Wj5_QLPOO6oXns-nJe3-kIPiWHYx"]
         
+        let searchRadius = defaults.float(forKey: "searchRadius") ?? 5
+        
         var url = ""
         
         switch self.selectedCategory {
         case "All Types":
             
-            url = "https://api.yelp.com/v3/businesses/search?latitude=\(lat)&longitude=\(long)&limit=50"
+            url = "https://api.yelp.com/v3/businesses/search?radius=\(searchRadius)&latitude=\(lat)&longitude=\(long)&limit=50"
             
         default:
             
-            url = "https://api.yelp.com/v3/businesses/search?latitude=\(lat)&longitude=\(long)&limit=50&categories=\(selectedCategory.lowercased())"
+            url = "https://api.yelp.com/v3/businesses/search?radius=\(searchRadius)&latitude=\(lat)&longitude=\(long)&limit=50&categories=\(selectedCategory.lowercased())"
             
         }
         
@@ -1245,9 +1266,68 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
         return (isReachable && !needsConnection)
     }
     
+    func dataChanged() {
+        
+        self.spinningView.startAnimating()
+        self.noresultsLabel.text = "Loading New Results"
+        self.noresultsLabel.isHidden = false
+        
+        self.selectedCategory = "All Types"
+        self.card.removeFromSuperview()
+        self.restaurantss.removeAll()
+        self.restaurantIndex = 0
+        self.searchBusinesses(self.lat, self.long) { (success) in
+            
+            if success {
+                
+                if self.restaurantss.isEmpty {
+                    
+                    self.noresultsLabel.text = "No Results"
+                    self.spinningView.stopAnimating()
+                    self.dislikeButton.isEnabled = false
+                    self.likeButton.isEnabled = false
+                    
+                } else {
+                    
+                    self.noresultsLabel.text = ""
+                    
+                    DispatchQueue.global(qos: .userInitiated).async {
+                        DispatchQueue.main.async {
+                            self.noresultsLabel.isHidden = true
+                            self.loadCard(self.likeButton)
+                        }
+                    }
+                    
+                }
+                
+            } else {
+                
+                self.noresultsLabel.text = "No Results"
+                self.noresultsLabel.isHidden = false
+                self.spinningView.stopAnimating()
+                self.dislikeButton.isEnabled = false
+                self.likeButton.isEnabled = false
+                
+            }
+            
+        }
+        
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "settingsSegue" {
+            
+            let destVC = (segue.destination as! UINavigationController).topViewController as? SettingsTableViewController
+            destVC?.delegate = self
+            
+        }
+        
     }
 
 

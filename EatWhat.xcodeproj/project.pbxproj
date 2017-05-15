@@ -26,6 +26,8 @@
 		56C1D53F1E9282A200D9EA95 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 56C1D53D1E9282A200D9EA95 /* LaunchScreen.storyboard */; };
 		56C1D54A1E9282A200D9EA95 /* EatWhatTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C1D5491E9282A200D9EA95 /* EatWhatTests.swift */; };
 		56C1D5551E9282A200D9EA95 /* EatWhatUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C1D5541E9282A200D9EA95 /* EatWhatUITests.swift */; };
+		56D847191EC8BF3700618127 /* Slidercell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 56D847181EC8BF3700618127 /* Slidercell.xib */; };
+		56D8471B1EC8BF5300618127 /* SliderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D8471A1EC8BF5300618127 /* SliderTableViewCell.swift */; };
 		56F0EDF51EA1A96A0022BB51 /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56F0EDF41EA1A96A0022BB51 /* SettingsTableViewController.swift */; };
 		7699E8E583284E922F944D65 /* Pods_EatWhat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A82B9355E273C4BF58CA552 /* Pods_EatWhat.framework */; };
 /* End PBXBuildFile section */
@@ -75,6 +77,8 @@
 		56C1D5501E9282A200D9EA95 /* EatWhatUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EatWhatUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		56C1D5541E9282A200D9EA95 /* EatWhatUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EatWhatUITests.swift; sourceTree = "<group>"; };
 		56C1D5561E9282A200D9EA95 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		56D847181EC8BF3700618127 /* Slidercell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Slidercell.xib; sourceTree = "<group>"; };
+		56D8471A1EC8BF5300618127 /* SliderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SliderTableViewCell.swift; sourceTree = "<group>"; };
 		56F0EDF41EA1A96A0022BB51 /* SettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
 		5DE47A2C8DF2AC8572609399 /* Pods-EatWhat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EatWhat.release.xcconfig"; path = "Pods/Target Support Files/Pods-EatWhat/Pods-EatWhat.release.xcconfig"; sourceTree = "<group>"; };
 		9A82B9355E273C4BF58CA552 /* Pods_EatWhat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EatWhat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -176,6 +180,8 @@
 				56C1D5341E9282A200D9EA95 /* AppDelegate.swift */,
 				56C1D5361E9282A200D9EA95 /* MainViewController.swift */,
 				56F0EDF41EA1A96A0022BB51 /* SettingsTableViewController.swift */,
+				56D847181EC8BF3700618127 /* Slidercell.xib */,
+				56D8471A1EC8BF5300618127 /* SliderTableViewCell.swift */,
 				56C1D5381E9282A200D9EA95 /* Main.storyboard */,
 				565573A41EBE1EAD009626AA /* RestaurantCard */,
 				565573A31EBE1EA5009626AA /* ReviewCard */,
@@ -337,6 +343,7 @@
 				56C1D53F1E9282A200D9EA95 /* LaunchScreen.storyboard in Resources */,
 				56C1D53C1E9282A200D9EA95 /* Assets.xcassets in Resources */,
 				5642C8B91E970DA3000C4467 /* RestaurantCard.xib in Resources */,
+				56D847191EC8BF3700618127 /* Slidercell.xib in Resources */,
 				56C1D53A1E9282A200D9EA95 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -412,6 +419,7 @@
 			files = (
 				56F0EDF51EA1A96A0022BB51 /* SettingsTableViewController.swift in Sources */,
 				56C1D5371E9282A200D9EA95 /* MainViewController.swift in Sources */,
+				56D8471B1EC8BF5300618127 /* SliderTableViewCell.swift in Sources */,
 				563535701EAE5EB600B9172B /* ReviewCard.swift in Sources */,
 				5642C8B71E970D98000C4467 /* RestaurantCard.swift in Sources */,
 				56C1D5351E9282A200D9EA95 /* AppDelegate.swift in Sources */,

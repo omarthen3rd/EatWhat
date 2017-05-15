@@ -146,7 +146,6 @@ class RestaurantCard: UIView, UIWebViewDelegate {
             
             if defaults.object(forKey: "whichCell") == nil {
                 
-                print("ran this")
                 defaults.set("", forKey: "whichCell")
                 
             }
@@ -157,7 +156,7 @@ class RestaurantCard: UIView, UIWebViewDelegate {
             doubleTapGesture.numberOfTapsRequired = 2
             doubleTapGesture.numberOfTouchesRequired = 2
             
-            featuredImageView.addGestureRecognizer(doubleTapGesture)
+            // featuredImageView.addGestureRecognizer(doubleTapGesture)
             
             restaurantNameLabel.text = restaurant.name
             restaurantCategory.text = restaurant.category
@@ -249,8 +248,6 @@ class RestaurantCard: UIView, UIWebViewDelegate {
             
             originalY = footerView.bounds.origin.y
             self.footerView.bounds.origin.y -= (self.footerView.frame.height) - (self.restaurantPriceRange.frame.height + self.restaurantMap.frame.height)
-            yMin = self.footerView.bounds.origin.y
-            totalTranslation = yMin
             swipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(self.moveDown))
             swipeGesture.direction = UISwipeGestureRecognizerDirection.up
             
@@ -569,8 +566,6 @@ class RestaurantCard: UIView, UIWebViewDelegate {
     }
     
     func showReviewsView() {
-        
-        print("showsReviewView ran")
         
         if didShowReviewView {
             

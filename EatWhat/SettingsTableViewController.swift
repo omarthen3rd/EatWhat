@@ -9,6 +9,12 @@
 import UIKit
 import NotificationCenter
 
+protocol SettingsDelegate {
+    
+    func dataChanged()
+    
+}
+
 class UIPickerCell: UITableViewCell {
     
     @IBOutlet var label: UILabel!
@@ -85,13 +91,25 @@ class SettingsTableViewController: UITableViewController {
     
     let defaults = UserDefaults.standard
     
+    var previousRadius = Float()
+    
+    var delegate: SettingsDelegate?
+    
     var selectedIndex : NSInteger! = -1
+    
+    @IBAction func doneAction(_ sender: UIBarButtonItem) {
+        
+        
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        self.previousRadius = defaults.float(forKey: "searchRadius")
+        
         addBlur()
         
+        tableView.register(UINib(nibName: "Slidercell", bundle: nil), forCellReuseIdentifier: "Slidercell")
         tableView.tableFooterView = UIView(frame: .zero)
         
     }
@@ -99,6 +117,19 @@ class SettingsTableViewController: UITableViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        if !(self.previousRadius == defaults.float(forKey: "searchRadius")) {
+            
+            if let del = delegate {
+                del.dataChanged()
+            }
+            
+        }
+        
     }
     
     func addBlur() {
@@ -114,42 +145,148 @@ class SettingsTableViewController: UITableViewController {
     
     // MARK: - Table view data source
     
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        
+        if section == 0 {
+            
+            let blurEffect = UIBlurEffect(style: .light)
+            let vibrancyEffect = UIVibrancyEffect(blurEffect: blurEffect)
+            let vibrancyEffectView = UIVisualEffectView(effect: vibrancyEffect)
+            vibrancyEffectView.frame = CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: 60)
+            vibrancyEffectView.autoresizingMask = .flexibleWidth
+            
+            //Create header label
+            let vibrantLabel = UILabel()
+            vibrantLabel.frame = CGRect(x: 15, y: 30, width: tableView.bounds.size.width, height: 30)
+            vibrantLabel.autoresizingMask = .flexibleWidth
+            vibrantLabel.text = "SEARCH RADIUS"
+            vibrantLabel.font = UIFont.systemFont(ofSize: 13)
+            vibrantLabel.textColor = UIColor(white: 0.64, alpha: 1)
+            
+            vibrancyEffectView.contentView.addSubview(vibrantLabel)
+            
+            return vibrancyEffectView
+            
+        } else {
+            
+            
+            let blurEffect = UIBlurEffect(style: .light)
+            let vibrancyEffect = UIVibrancyEffect(blurEffect: blurEffect)
+            let vibrancyEffectView = UIVisualEffectView(effect: vibrancyEffect)
+            vibrancyEffectView.frame = CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: 30)
+            vibrancyEffectView.autoresizingMask = .flexibleWidth
+            
+            //Create header label
+            let vibrantLabel = UILabel()
+            vibrantLabel.frame = CGRect(x: 15, y: 0, width: tableView.bounds.size.width, height: 30)
+            vibrantLabel.autoresizingMask = .flexibleWidth
+            vibrantLabel.text = "DEFAULT APPS"
+            vibrantLabel.font = UIFont.systemFont(ofSize: 13)
+            vibrantLabel.textColor = UIColor(white: 0.64, alpha: 1)
+            
+            vibrancyEffectView.contentView.addSubview(vibrantLabel)
+            
+            return vibrancyEffectView
+            
+        }
+        
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        
+        if section == 0 {
+            
+            return 60
+            
+        } else {
+            
+            return 30
+            
+        }
+        
+    }
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return 2
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "DEFAULTS"
+        if section == 0 {
+            
+            return "SEARCH RADIUS"
+            
+        } else {
+            
+            return "DEFAULT APPS"
+            
+        }
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        
+        if section == 0 {
+            
+            return 1
+            
+        } else {
+            
+            return 2
+            
+        }
+        
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if indexPath.row == 0 {
+        if indexPath.section == 0 {
             
-            let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! UIPickerCell
-                        
-            defaults.set("Browser", forKey: "whichCell")
+            let cell = tableView.dequeueReusableCell(withIdentifier: "Slidercell", for: indexPath) as! SliderTableViewCell
             
-            cell.label.text = "Default Maps App"
-            cell.appIcon?.image = UIImage(named: defaults.object(forKey: "defaultMaps") as! String) ?? UIImage(named: "Apple Maps")
+            // cell.LabelMcLabelFace.text = "45 KM"
+            // cell.SlideyMcSlideFace.value = 5.0
+            
+            let defaultsValue = defaults.float(forKey: "searchRadius") ?? 5
+            
+            cell.selectionStyle = .none
+            
+            cell.slider.maximumValue = 40
+            cell.slider.minimumValue = 1
+            
+            cell.slider.value = defaultsValue
+            
+            cell.slider.addTarget(cell, action: #selector(cell.setSearchRadius(_:)), for: .valueChanged)
+            
+            cell.radiusLabel.text = "\(Int(defaultsValue)) km"
             
             return cell
+            
             
         } else {
             
-            let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! UIPickerCell
-            
-            defaults.set("Maps", forKey: "whichCell")
-            
-            cell.label.text = "Default Browser App"
-            cell.appIcon?.image = UIImage(named: defaults.object(forKey: "defaultBrowser") as! String) ?? UIImage(named: "Safari")
-            
-            return cell
+            if indexPath.row == 0 {
+                
+                let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! UIPickerCell
+                
+                defaults.set("Browser", forKey: "whichCell")
+                
+                cell.label.text = "Default Maps App"
+                cell.appIcon?.image = UIImage(named: defaults.object(forKey: "defaultMaps") as! String) ?? UIImage(named: "Apple Maps")
+                
+                return cell
+                
+            } else {
+                
+                let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! UIPickerCell
+                
+                defaults.set("Maps", forKey: "whichCell")
+                
+                cell.label.text = "Default Browser App"
+                cell.appIcon?.image = UIImage(named: defaults.object(forKey: "defaultBrowser") as! String) ?? UIImage(named: "Safari")
+                
+                return cell
+                
+            }
             
         }
         
@@ -159,32 +296,45 @@ class SettingsTableViewController: UITableViewController {
         
         tableView.deselectRow(at: indexPath, animated: true)
         
-        if indexPath.row == selectedIndex {
+        if indexPath.section == 1 && (indexPath.row == 0 || indexPath.row == 1) {
             
-            selectedIndex = -1
+            if indexPath.row == selectedIndex {
+                
+                selectedIndex = -1
+                
+            } else {
+                
+                selectedIndex = indexPath.row
+                
+            }
             
-        } else {
-            
-            selectedIndex = indexPath.row
+            tableView.beginUpdates()
+            tableView.endUpdates()
             
         }
-        
-        tableView.beginUpdates()
-        tableView.endUpdates()
         
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        if indexPath.row == selectedIndex {
+        if indexPath.section == 1 {
             
-            return 250
+            if indexPath.row == selectedIndex {
+                
+                return 250
+                
+            } else {
+                
+                return 68
+                
+            }
             
         } else {
             
             return 68
             
         }
+        
     }
     
     // MARK: - Navigation
