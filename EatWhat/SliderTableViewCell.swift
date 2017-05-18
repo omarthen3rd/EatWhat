@@ -43,9 +43,25 @@ class SliderTableViewCell: UITableViewCell {
         
         let discreteValue = roundf(sender.value)
         
-        defaults.set(discreteValue, forKey: "searchRadius")
-        radiusLabel.text = "\(Int(discreteValue)) km"
-        sender.value = discreteValue
+        let searchKm = Measurement(value: Double(discreteValue), unit: UnitLength.kilometers)
+        let searchMeters = searchKm.converted(to: UnitLength.meters)
+        
+        let numberFormatter = NumberFormatter()
+        numberFormatter.maximumFractionDigits = 0
+        let measurementFormatter = MeasurementFormatter()
+        measurementFormatter.unitOptions = .providedUnit
+        measurementFormatter.numberFormatter = numberFormatter
+        
+        let searchToUse = measurementFormatter.string(from: searchMeters)
+        let oneReplaced = searchToUse.replacingOccurrences(of: " m", with: "")
+        
+        if let intVal = Int(oneReplaced) {
+            
+            defaults.set(intVal, forKey: "searchRadius")
+            radiusLabel.text = "\(Int(discreteValue)) km"
+            sender.value = discreteValue
+            
+        }
         
     }
 

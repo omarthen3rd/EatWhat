@@ -281,7 +281,6 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
     
     var lat = Double()
     var long = Double()
-    var searchRadius: Int = 5000 // 5 KM
     var sortLabel = UILabel()
     var sortByView = UIView()
     var orderLabel = UILabel()
@@ -304,6 +303,14 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if defaults.integer(forKey: "searchRadius") == 0 {
+            
+            print("first time")
+            // searchRadius value in meters
+            defaults.set(5000, forKey: "searchRadius")
+            
+        }
         
         
         wallpaperVisualView.effect = nil
@@ -452,7 +459,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
         
     }
     
-    func loadInterface() {
+    func loadInterface(completionHandler: @escaping (Bool) -> ()) {
         
         self.spinningView.hidesWhenStopped = true
         
@@ -535,13 +542,13 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
         
         scrollView.contentSize = CGSize(width: self.vibrancyView.bounds.width, height: buttonY)
         
-        self.loadCard(likeButton)
-        
         if let allTypesButton = scrollView.subviews[0] as? UIButton {
             
             self.handleSelectedRestaurant(allTypesButton, true)
             
         }
+        
+        completionHandler(true)
         
         // self.handleSelectedRestaurant(self.scrollView.subviews[0] as! UIButton, true)
         
@@ -999,7 +1006,23 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
                 
                 if success {
                     
-                    self.loadInterface()
+                    self.loadInterface(completionHandler: { (success) in
+                        
+                        self.loadCard(self.likeButton)
+                        
+                    })
+                    
+                } else {
+                    
+                    self.loadInterface(completionHandler: { (success) in
+                        
+                        self.noresultsLabel.text = "No Results In Your Search Radius"
+                        self.noresultsLabel.isHidden = false
+                        
+                    })
+                    
+                    print("not success")
+                    
                 }
             })
         }
@@ -1069,7 +1092,8 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
         
         let headers: HTTPHeaders = ["Authorization": "Bearer Y43yqZUkj6vah5sgOHU-1PFN2qpapJsSwXZYScYTo0-nK9w5Y3lDvrdRJeG1IpQAADep0GrRL5ZDv6ybln03nIVzP7BL_IzAf_s7Wj5_QLPOO6oXns-nJe3-kIPiWHYx"]
         
-        let searchRadius = defaults.float(forKey: "searchRadius") ?? 5
+        let searchRadius = defaults.integer(forKey: "searchRadius")
+        print(searchRadius)
         
         var url = ""
         
@@ -1111,51 +1135,59 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
             if let value = response.result.value {
                 
                 let json = JSON(value)
-                
-                for business in json["businesses"].arrayValue {
+                                
+                if json["total"].intValue == 0 {
                     
-                    name = business["name"].stringValue
-                    website = business["url"].stringValue
-                    imageURL = business["image_url"].stringValue
-                    rating = business["rating"].intValue
-                    priceRange = business["price"].stringValue
-                    phone = business["phone"].stringValue
-                    id = business["id"].stringValue
-                    closedBool = business["is_closed"].boolValue
-                    reviewCount = business["review_count"].intValue
-                    distance = business["distance"].doubleValue
+                    completetionHandler(false)
                     
-                    city = business["location"]["city"].stringValue
-                    country = business["location"]["country"].stringValue
-                    state = business["location"]["state"].stringValue
-                    address = business["location"]["address1"].stringValue
-                    zipCode = business["location"]["zip_code"].stringValue
+                } else {
                     
-                    transactions = business["transactions"].arrayValue.map( { $0.string! } )
-                    
-                    restaurantHoursToAppend = [RestaurantHours]()
-                    
-                    self.showBusinessDetails(id, completionHandler: { (arr) in
-                      
-                        if !(arr.isEmpty) {
+                    for business in json["businesses"].arrayValue {
+                        
+                        name = business["name"].stringValue
+                        website = business["url"].stringValue
+                        imageURL = business["image_url"].stringValue
+                        rating = business["rating"].intValue
+                        priceRange = business["price"].stringValue
+                        phone = business["phone"].stringValue
+                        id = business["id"].stringValue
+                        closedBool = business["is_closed"].boolValue
+                        reviewCount = business["review_count"].intValue
+                        distance = business["distance"].doubleValue
+                        
+                        city = business["location"]["city"].stringValue
+                        country = business["location"]["country"].stringValue
+                        state = business["location"]["state"].stringValue
+                        address = business["location"]["address1"].stringValue
+                        zipCode = business["location"]["zip_code"].stringValue
+                        
+                        transactions = business["transactions"].arrayValue.map( { $0.string! } )
+                        
+                        restaurantHoursToAppend = [RestaurantHours]()
+                        
+                        self.showBusinessDetails(id, completionHandler: { (arr) in
                             
-                            restaurantHoursToAppend = arr
+                            if !(arr.isEmpty) {
+                                
+                                restaurantHoursToAppend = arr
+                                
+                            }
+                        })
+                        
+                        for category in business["categories"].arrayValue {
+                            
+                            restaurantCategory = category["title"].stringValue
                             
                         }
-                    })
-                    
-                    for category in business["categories"].arrayValue {
                         
-                        restaurantCategory = category["title"].stringValue
+                        let newRestaurant = Restaurantt(name: name, website: website, imageURL: imageURL, rating: rating, priceRange: priceRange, phone: phone, id: id, isClosed: closedBool, category: restaurantCategory, reviewCount: reviewCount, distance: distance, city: city, country: country, state: state, address: address, zipCode: zipCode, transactions: transactions)
+                        self.restaurantss.append(newRestaurant)
                         
                     }
                     
-                    let newRestaurant = Restaurantt(name: name, website: website, imageURL: imageURL, rating: rating, priceRange: priceRange, phone: phone, id: id, isClosed: closedBool, category: restaurantCategory, reviewCount: reviewCount, distance: distance, city: city, country: country, state: state, address: address, zipCode: zipCode, transactions: transactions)
-                    self.restaurantss.append(newRestaurant)
+                    completetionHandler(true)
                     
                 }
-                
-                completetionHandler(true)
                 
             } else {
                 

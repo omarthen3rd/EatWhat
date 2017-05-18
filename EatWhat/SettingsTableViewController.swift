@@ -91,21 +91,16 @@ class SettingsTableViewController: UITableViewController {
     
     let defaults = UserDefaults.standard
     
-    var previousRadius = Float()
+    var previousRadius = Int()
     
     var delegate: SettingsDelegate?
     
     var selectedIndex : NSInteger! = -1
     
-    @IBAction func doneAction(_ sender: UIBarButtonItem) {
-        
-        
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.previousRadius = defaults.float(forKey: "searchRadius")
+        self.previousRadius = defaults.integer(forKey: "searchRadius")
         
         addBlur()
         
@@ -122,7 +117,7 @@ class SettingsTableViewController: UITableViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        if !(self.previousRadius == defaults.float(forKey: "searchRadius")) {
+        if !(self.previousRadius == defaults.integer(forKey: "searchRadius")) {
             
             if let del = delegate {
                 del.dataChanged()
@@ -246,21 +241,20 @@ class SettingsTableViewController: UITableViewController {
             // cell.LabelMcLabelFace.text = "45 KM"
             // cell.SlideyMcSlideFace.value = 5.0
             
-            let defaultsValue = defaults.float(forKey: "searchRadius") ?? 5
+            let defaultsValue = defaults.integer(forKey: "searchRadius")
             
             cell.selectionStyle = .none
             
             cell.slider.maximumValue = 40
             cell.slider.minimumValue = 1
             
-            cell.slider.value = defaultsValue
+            cell.slider.value = Float(defaultsValue / 1000)
             
             cell.slider.addTarget(cell, action: #selector(cell.setSearchRadius(_:)), for: .valueChanged)
             
-            cell.radiusLabel.text = "\(Int(defaultsValue)) km"
+            cell.radiusLabel.text = "\(defaultsValue / 1000) km"
             
             return cell
-            
             
         } else {
             
