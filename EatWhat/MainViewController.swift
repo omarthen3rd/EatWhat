@@ -237,7 +237,7 @@ struct RestaurantReview {
     
 }
 
-class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerDelegate, SettingsDelegate {
+class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerDelegate, SettingsDelegate, AlertDelegate {
 
     @IBOutlet var settingsButton: UIButton!
     @IBOutlet var favouritesViewButton: UIButton!
@@ -364,6 +364,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
         let doubleTapGesture = UITapGestureRecognizer(target: self, action: #selector(self.addToFavourites))
         doubleTapGesture.numberOfTapsRequired = 2
         self.card = RestaurantCard(frame: CGRect(x: 0, y: 0, width: 343, height: 449))
+        self.card.delegate = self
         self.card.restaurant = self.restaurantss[self.restaurantIndex]
         self.card.translatesAutoresizingMaskIntoConstraints = false
         self.card.addGestureRecognizer(doubleTapGesture)
@@ -930,7 +931,17 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
         
         self.alertViewLabel.text = textToUse
         self.alertViewLabel.alpha = 0.0
-        self.alertViewImage.image = UIImage(named: "favourite")?.withRenderingMode(.alwaysTemplate)
+        
+        if textToUse.contains("Favourites") {
+            
+            self.alertViewImage.image = UIImage(named: "favourite")?.withRenderingMode(.alwaysTemplate)
+            
+        } else {
+            
+            self.alertViewImage.image = UIImage(named: "star")?.withRenderingMode(.alwaysTemplate)
+            
+            
+        }
         self.alertViewImage.alpha = 0.0
         self.alertView.isHidden = false
 
@@ -1016,12 +1027,11 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
                     
                     self.loadInterface(completionHandler: { (success) in
                         
+                        self.spinningView.stopAnimating()
                         self.noresultsLabel.text = "No Results In Your Search Radius"
                         self.noresultsLabel.isHidden = false
                         
                     })
-                    
-                    print("not success")
                     
                 }
             })
@@ -1304,7 +1314,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
         self.noresultsLabel.text = "Loading New Results"
         self.noresultsLabel.isHidden = false
         
-        self.selectedCategory = "All Types"
+        // self.selectedCategory = "All Types"
         self.card.removeFromSuperview()
         self.restaurantss.removeAll()
         self.restaurantIndex = 0
@@ -1343,6 +1353,12 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
             }
             
         }
+        
+    }
+    
+    func callAlert() {
+        
+        showAlertView("Copied Phone Number")
         
     }
     

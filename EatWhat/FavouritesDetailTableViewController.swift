@@ -140,12 +140,7 @@ class FavouritesDetailTableViewController: UITableViewController {
                     
                     if operationDay.day == self.getCurrentDay() {
                         
-                        let stringToUse = NSMutableAttributedString(string: "Open Until: " + "\(operationDay.endTime)")
-                        stringToUse.setColorForText("Open", with: .green)
-                        stringToUse.setBoldForText("Open")
-                        self.restaurantTimings.attributedText = stringToUse
-                        
-                        // self.restaurantTimings.text = "Open Until: " + "\(operationDay.endTime)"
+                        self.restaurantTimings.text = "Hours: " + "\(operationDay.startTime) to " + "\(operationDay.endTime)"
                         
                     }
                     

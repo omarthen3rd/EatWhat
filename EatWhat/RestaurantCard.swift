@@ -13,6 +13,12 @@ import SwiftyJSON
 import WebKit
 import Alamofire
 
+protocol AlertDelegate {
+    
+    func callAlert()
+    
+}
+
 private extension NSLayoutConstraint  {
     
     func hasExceeded(_ verticalLimit: CGFloat) -> Bool {
@@ -45,6 +51,8 @@ class RestaurantCard: UIView, UIWebViewDelegate {
     var totalTranslation: CGFloat = 0
     var yTransToAddTo = CGFloat()
     let defaults = UserDefaults.standard
+    
+    var delegate: AlertDelegate?
     
     let phoneNumberKit = PhoneNumberKit()
     
@@ -152,11 +160,10 @@ class RestaurantCard: UIView, UIWebViewDelegate {
             
             loadImage(restaurant.imageURL)
             
-            let doubleTapGesture = UITapGestureRecognizer(target: self, action: #selector(self.addToFavourites))
-            doubleTapGesture.numberOfTapsRequired = 2
-            doubleTapGesture.numberOfTouchesRequired = 2
+            let phoneTapGesture = UITapGestureRecognizer(target: self, action: #selector(self.copyLabel))
+            phoneTapGesture.numberOfTapsRequired = 1
             
-            // featuredImageView.addGestureRecognizer(doubleTapGesture)
+            restaurantPhone.addGestureRecognizer(phoneTapGesture)
             
             restaurantNameLabel.text = restaurant.name
             restaurantCategory.text = restaurant.category
@@ -223,12 +230,7 @@ class RestaurantCard: UIView, UIWebViewDelegate {
                         
                         if operationDay.day == self.getCurrentDay() {
                             
-                            let stringToUse = NSMutableAttributedString(string: "Open Until: " + "\(operationDay.endTime)")
-                            stringToUse.setColorForText("Open", with: .green)
-                            stringToUse.setBoldForText("Open")
-                            self.restaurantTimings.attributedText = stringToUse
-                            
-                            // self.restaurantTimings.text = "Open Until: " + "\(operationDay.endTime)"
+                            self.restaurantTimings.text = "\(operationDay.startTime) to " + "\(operationDay.endTime)"
                             
                         }
                         
@@ -351,6 +353,19 @@ class RestaurantCard: UIView, UIWebViewDelegate {
                 
             }
             
+        }
+        
+    }
+    
+    func copyLabel() {
+        
+        print("ran this")
+        
+        let pasteboard = UIPasteboard.general
+        pasteboard.string = restaurant.phone
+        
+        if let del = delegate {
+            del.callAlert()
         }
         
     }

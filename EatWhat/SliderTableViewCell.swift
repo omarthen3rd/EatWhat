@@ -17,7 +17,6 @@ class SliderTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
         
         self.backgroundColor = UIColor.clear
         
@@ -25,18 +24,17 @@ class SliderTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        // self.setup()
+
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        // self.setup()
+
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
-        // Configure the view for the selected state
     }
     
     func setSearchRadius(_ sender: UISlider) {

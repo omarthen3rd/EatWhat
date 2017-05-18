@@ -238,9 +238,6 @@ class SettingsTableViewController: UITableViewController {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "Slidercell", for: indexPath) as! SliderTableViewCell
             
-            // cell.LabelMcLabelFace.text = "45 KM"
-            // cell.SlideyMcSlideFace.value = 5.0
-            
             let defaultsValue = defaults.integer(forKey: "searchRadius")
             
             cell.selectionStyle = .none
