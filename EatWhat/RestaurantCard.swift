@@ -13,12 +13,6 @@ import SwiftyJSON
 import WebKit
 import Alamofire
 
-protocol AlertDelegate {
-    
-    func callAlert()
-    
-}
-
 private extension NSLayoutConstraint  {
     
     func hasExceeded(_ verticalLimit: CGFloat) -> Bool {
@@ -41,6 +35,12 @@ class Alert {
     
 }
 
+protocol ReviewDelegate {
+    
+    func showReviewView()
+    
+}
+
 class RestaurantCard: UIView, UIWebViewDelegate {
     
     var swipeGesture = UISwipeGestureRecognizer()
@@ -51,10 +51,11 @@ class RestaurantCard: UIView, UIWebViewDelegate {
     var totalTranslation: CGFloat = 0
     var yTransToAddTo = CGFloat()
     let defaults = UserDefaults.standard
-    
-    var delegate: AlertDelegate?
-    
+    var feedbackGenerator: UIImpactFeedbackGenerator?
+        
     let phoneNumberKit = PhoneNumberKit()
+    
+    var delegate: ReviewDelegate?
     
     @IBOutlet var contentView: UIView!
     
@@ -87,6 +88,7 @@ class RestaurantCard: UIView, UIWebViewDelegate {
     @IBOutlet var restaurantTimings: UILabel!
     @IBOutlet var restaurantTransactions: UILabel!
     
+    @IBOutlet var vibrancyChevron: UIImageView!
     @IBOutlet var vibrancyRectangle: UIView!
     @IBOutlet var vibrancyAddress: UILabel!
     @IBOutlet var vibrancyContact: UILabel!
@@ -100,6 +102,8 @@ class RestaurantCard: UIView, UIWebViewDelegate {
     var restaurant: Restaurantt! {
         
         didSet {
+            
+            feedbackGenerator = UIImpactFeedbackGenerator()
             
             self.reviewCard.layer.cornerRadius = 10.0
             self.reviewCard.layer.shadowColor = UIColor.black.cgColor
@@ -159,11 +163,6 @@ class RestaurantCard: UIView, UIWebViewDelegate {
             }
             
             loadImage(restaurant.imageURL)
-            
-            let phoneTapGesture = UITapGestureRecognizer(target: self, action: #selector(self.copyLabel))
-            phoneTapGesture.numberOfTapsRequired = 1
-            
-            restaurantPhone.addGestureRecognizer(phoneTapGesture)
             
             restaurantNameLabel.text = restaurant.name
             restaurantCategory.text = restaurant.category
@@ -249,7 +248,7 @@ class RestaurantCard: UIView, UIWebViewDelegate {
             }
             
             originalY = footerView.bounds.origin.y
-            self.footerView.bounds.origin.y -= (self.footerView.frame.height) - (self.restaurantPriceRange.frame.height + self.restaurantMap.frame.height)
+            self.footerView.bounds.origin.y -= (self.footerView.frame.height) - (self.vibrancyChevron.frame.height + self.restaurantPriceRange.frame.height + self.restaurantMap.frame.height)
             swipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(self.moveDown))
             swipeGesture.direction = UISwipeGestureRecognizerDirection.up
             
@@ -267,6 +266,8 @@ class RestaurantCard: UIView, UIWebViewDelegate {
             vibrancyContact.alpha = 0.0
             vibrancyTransactions.alpha = 0.0
             vibrancyRectangle.alpha = 0.0
+            vibrancyChevron.image = #imageLiteral(resourceName: "DismissChevron").withRenderingMode(.alwaysTemplate)
+            vibrancyChevron.transform = vibrancyChevron.transform.rotated(by: CGFloat.pi)
             
             restaurantWebsite.addTarget(self, action: #selector(self.openWebsite), for: .touchUpInside)
             callRestaurant.addTarget(self, action: #selector(self.callBusiness), for: .touchUpInside)
@@ -353,19 +354,6 @@ class RestaurantCard: UIView, UIWebViewDelegate {
                 
             }
             
-        }
-        
-    }
-    
-    func copyLabel() {
-        
-        print("ran this")
-        
-        let pasteboard = UIPasteboard.general
-        pasteboard.string = restaurant.phone
-        
-        if let del = delegate {
-            del.callAlert()
         }
         
     }
@@ -528,6 +516,8 @@ class RestaurantCard: UIView, UIWebViewDelegate {
     
     func moveDown() {
         
+        self.feedbackGenerator?.prepare()
+        
         if didAnimateView {
             
             let mapsImageName = defaults.object(forKey: "defaultMaps") as! String
@@ -544,9 +534,12 @@ class RestaurantCard: UIView, UIWebViewDelegate {
                 self.vibrancyContact.alpha = 0.0
                 self.vibrancyTransactions.alpha = 0.0
                 self.vibrancyRectangle.alpha = 0.0
-                self.footerView.bounds.origin.y -= (self.footerView.frame.height) - (self.restaurantPriceRange.frame.height + self.restaurantMap.frame.height)
+                self.footerView.bounds.origin.y -= (self.footerView.frame.height) - (self.vibrancyChevron.frame.height + self.restaurantPriceRange.frame.height + self.restaurantMap.frame.height)
+                self.vibrancyChevron.transform = self.vibrancyChevron.transform.rotated(by: CGFloat.pi)
                 
             }
+            
+            self.feedbackGenerator?.impactOccurred()
             
             didAnimateView = false
             
@@ -569,8 +562,11 @@ class RestaurantCard: UIView, UIWebViewDelegate {
                 self.vibrancyTransactions.alpha = 1.0
                 self.vibrancyRectangle.alpha = 1.0
                 self.footerView.bounds.origin.y = self.originalY
+                self.vibrancyChevron.transform = self.vibrancyChevron.transform.rotated(by: CGFloat.pi)
                 
             }
+            
+            self.feedbackGenerator?.impactOccurred()
             
             didAnimateView = true
             

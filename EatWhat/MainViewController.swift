@@ -237,7 +237,7 @@ struct RestaurantReview {
     
 }
 
-class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerDelegate, SettingsDelegate, AlertDelegate {
+class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerDelegate, SettingsDelegate, ReviewDelegate {
 
     @IBOutlet var settingsButton: UIButton!
     @IBOutlet var favouritesViewButton: UIButton!
@@ -262,6 +262,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
     var animator: UIDynamicAnimator!
     var panGestureRecognizer: UIPanGestureRecognizer!
     var scrollView: UIScrollView!
+    var feedbackGenerator: UIImpactFeedbackGenerator?
     
     var leftTapGesture = UITapGestureRecognizer()
     var rightTapGesture = UITapGestureRecognizer()
@@ -306,16 +307,18 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
         
         if defaults.integer(forKey: "searchRadius") == 0 {
             
-            print("first time")
             // searchRadius value in meters
             defaults.set(5000, forKey: "searchRadius")
             
         }
         
+        feedbackGenerator = UIImpactFeedbackGenerator()
+        feedbackGenerator?.prepare()
         
         wallpaperVisualView.effect = nil
         spinningView.startAnimating()
         
+        alertView.effect = nil
         settingsButton.alpha = 0.0
         mainLabel.alpha = 0.0
         favouritesViewButton.alpha = 0.0
@@ -364,10 +367,16 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
         let doubleTapGesture = UITapGestureRecognizer(target: self, action: #selector(self.addToFavourites))
         doubleTapGesture.numberOfTapsRequired = 2
         self.card = RestaurantCard(frame: CGRect(x: 0, y: 0, width: 343, height: 449))
-        self.card.delegate = self
         self.card.restaurant = self.restaurantss[self.restaurantIndex]
         self.card.translatesAutoresizingMaskIntoConstraints = false
         self.card.addGestureRecognizer(doubleTapGesture)
+        
+        animator = UIDynamicAnimator(referenceView: self.view)
+        snapBehavior = UISnapBehavior(item: self.card, snapTo: self.card.center)
+        panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(self.handlePan(_:)))
+        
+        // unless I find another way to keep multiple gesture without opening it then sure
+        // self.card.addGestureRecognizer(panGestureRecognizer)
         
         if button.tag == 1 {
             
@@ -929,6 +938,8 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
     
     func showAlertView(_ textToUse: String) {
         
+        self.feedbackGenerator?.impactOccurred()
+        
         self.alertViewLabel.text = textToUse
         self.alertViewLabel.alpha = 0.0
         
@@ -1356,9 +1367,31 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
         
     }
     
-    func callAlert() {
+    func showReviewView() {
         
-        showAlertView("Copied Phone Number")
+        
+        
+    }
+    
+    func handlePan(_ gesture: UIPanGestureRecognizer) {
+        
+        if gesture.state == .began {
+            
+            animator.removeBehavior(snapBehavior)
+            
+        } else if gesture.state == .changed {
+            
+            var newCenter = self.card.center
+            newCenter.x += gesture.translation(in: view).x
+            newCenter.y += gesture.translation(in: view).y
+            self.card.center = newCenter
+            gesture.setTranslation(CGPoint.zero, in: view)
+            
+        } else if gesture.state == .ended {
+            
+            animator.addBehavior(snapBehavior)
+            
+        }
         
     }
     
