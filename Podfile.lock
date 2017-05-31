@@ -1,5 +1,6 @@
 PODS:
   - Alamofire (4.0.1)
+  - BGTableViewRowActionWithImage (0.4.1)
   - Cosmos (9.0.0)
   - PhoneNumberKit (1.2.2):
     - PhoneNumberKit/PhoneNumberKitCore (= 1.2.2)
@@ -14,6 +15,7 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire (~> 4.0)
+  - BGTableViewRowActionWithImage
   - Cosmos (~> 9.0)
   - PhoneNumberKit (~> 1.2)
   - SDWebImage (~> 3.8)
@@ -21,11 +23,12 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   Alamofire: 7682d43245de14874acd142ec137b144aa1dd335
+  BGTableViewRowActionWithImage: 6a0731a84662735f5ec28dc253e3fba6a73ebc5b
   Cosmos: 33eee62b2a0418452aef470f711f83c3ea061b7b
   PhoneNumberKit: ffae8f18fb78c1425c7af973711b0b0fd4f4104f
   SDWebImage: 098e97e6176540799c27e804c96653ee0833d13c
   SwiftyJSON: f0be2e604f83e8405a624e9f891898bf6ed4e019
 
-PODFILE CHECKSUM: c97954d48ec461f8d31ff05873a699aa34bf592d
+PODFILE CHECKSUM: 4d5f4e846b9d32b4731b6edaebcb2371f16bfe27
 
 COCOAPODS: 1.2.1

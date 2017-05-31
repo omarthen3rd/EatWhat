@@ -12,5 +12,6 @@ target 'EatWhat' do
   pod 'PhoneNumberKit', '~> 1.2'
   pod 'Cosmos', '~> 9.0'
   pod 'SDWebImage', '~>3.8'
+  pod "BGTableViewRowActionWithImage"
 
 end

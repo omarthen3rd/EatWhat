@@ -9,6 +9,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>BGTableViewRowActionWithImage.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Cosmos.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -37,12 +42,12 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>1C360514A4F42183E130CBB677AC44B1</key>
+		<key>4FDC533A4360A68ABDCE852F04B30927</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>4FDC533A4360A68ABDCE852F04B30927</key>
+		<key>6F983DF4CA4AE96FC7D664DC5BB622A8</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -57,12 +62,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>A43B0251172131040C95D09AD3F14758</key>
+		<key>A7F5E27E5045002E20B56FE45C899059</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>E1D04D9886A92C84F8694B2CB93A0871</key>
+		<key>C533644A8E4C8362DBE11A65F4FCE280</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>CE0E76076FBC5687179C88AA9B79E7DB</key>
 		<dict>
 			<key>primary</key>
 			<true/>
