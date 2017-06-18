@@ -8,6 +8,7 @@
 
 import UIKit
 import Cosmos
+import BGTableViewRowActionWithImage
 
 class FavouritesCell: UITableViewCell {
     
@@ -56,7 +57,7 @@ class FavouritesTableViewController: UITableViewController {
         tableView.tableFooterView = UIView(frame: .zero)
         
         self.tableView.backgroundColor = UIColor.clear
-        let blurEffect = UIBlurEffect(style: .light)
+        let blurEffect = UIBlurEffect(style: .extraLight)
         blurEffectView = UIVisualEffectView(effect: blurEffect)
         tableView.separatorEffect = UIVibrancyEffect(blurEffect: blurEffect)
         
@@ -66,8 +67,6 @@ class FavouritesTableViewController: UITableViewController {
     func loadFavourites() {
         
         if defaults.object(forKey: "favourites") == nil {
-            
-            
             
         } else {
             
@@ -148,7 +147,7 @@ class FavouritesTableViewController: UITableViewController {
             
             cell.restaurantImage.sd_setImage(with: url)
             cell.restaurantImage.clipsToBounds = true
-            cell.restaurantImage.layer.cornerRadius = 10
+            cell.restaurantImage.layer.cornerRadius = 5
             
         }
 
@@ -157,7 +156,9 @@ class FavouritesTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         
-        let delete = UITableViewRowAction(style: .default, title: "Delete") { (action, index) in
+        let image = UIImage(named: "delete")
+        
+        let del = BGTableViewRowActionWithImage.rowAction(with: .destructive, title: "Delete", backgroundColor: UIColor.red, image: image, forCellHeight: UInt(tableView.rowHeight)) { (action, index) in
             
             self.favourites.remove(at: indexPath.row)
             
@@ -168,10 +169,8 @@ class FavouritesTableViewController: UITableViewController {
             self.tableView.reloadData()
             
         }
-        
-        delete.backgroundColor = UIColor.red
-        
-        return [delete]
+                
+        return [del!]
         
     }
     

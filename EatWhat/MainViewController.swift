@@ -286,7 +286,6 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
     var sortByView = UIView()
     var orderLabel = UILabel()
     var orderByView = UIView()
-    var sadView = UIView()
     var restaurantTypesButton = UIButton()
     
     var card = RestaurantCard()
@@ -371,12 +370,11 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
         self.card.translatesAutoresizingMaskIntoConstraints = false
         self.card.addGestureRecognizer(doubleTapGesture)
         
-        animator = UIDynamicAnimator(referenceView: self.view)
-        snapBehavior = UISnapBehavior(item: self.card, snapTo: self.card.center)
+        animator = UIDynamicAnimator(referenceView: view)
+        snapBehavior = UISnapBehavior(item: self.card, snapTo: self.view.center)
         panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(self.handlePan(_:)))
         
-        // unless I find another way to keep multiple gesture without opening it then sure
-        // self.card.addGestureRecognizer(panGestureRecognizer)
+        self.card.addGestureRecognizer(panGestureRecognizer)
         
         if button.tag == 1 {
             
@@ -1110,11 +1108,10 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
     }
     
     func searchBusinesses(_ lat: Double, _ long: Double, completetionHandler: @escaping (Bool) -> Void) {
-        
+                
         let headers: HTTPHeaders = ["Authorization": "Bearer Y43yqZUkj6vah5sgOHU-1PFN2qpapJsSwXZYScYTo0-nK9w5Y3lDvrdRJeG1IpQAADep0GrRL5ZDv6ybln03nIVzP7BL_IzAf_s7Wj5_QLPOO6oXns-nJe3-kIPiWHYx"]
         
         let searchRadius = defaults.integer(forKey: "searchRadius")
-        print(searchRadius)
         
         var url = ""
         
@@ -1156,6 +1153,8 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
             if let value = response.result.value {
                 
                 let json = JSON(value)
+                
+                print(json)
                                 
                 if json["total"].intValue == 0 {
                     
@@ -1211,6 +1210,11 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
                 }
                 
             } else {
+                
+                print("search failed")
+                
+                // TODO:
+                // add refresh type of button to try to reload results
                 
                 completetionHandler(false)
                 
@@ -1375,21 +1379,28 @@ class ViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerD
     
     func handlePan(_ gesture: UIPanGestureRecognizer) {
         
+        self.animator.removeAllBehaviors()
+        
         if gesture.state == .began {
             
-            animator.removeBehavior(snapBehavior)
+            self.card.center = gesture.location(ofTouch: 0, in: view)
             
         } else if gesture.state == .changed {
             
-            var newCenter = self.card.center
-            newCenter.x += gesture.translation(in: view).x
-            newCenter.y += gesture.translation(in: view).y
-            self.card.center = newCenter
-            gesture.setTranslation(CGPoint.zero, in: view)
+            self.card.center = gesture.location(ofTouch: 0, in: view)
+            
+            // var newCenter = self.card.center
+            // newCenter.x += gesture.translation(in: view).x
+            // newCenter.y += gesture.translation(in: view).y
+            // self.card.center = newCenter
+            // gesture.setTranslation(CGPoint.zero, in: view)
             
         } else if gesture.state == .ended {
             
+            // snapBehavior.snapPoint = cardCenter
+            // print(cardCenter)
             animator.addBehavior(snapBehavior)
+            // print(snapBehavior.snapPoint)
             
         }
         

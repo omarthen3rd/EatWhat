@@ -165,56 +165,9 @@ class FavouritesDetailTableViewController: UITableViewController {
             
         }
         
-        /*
-         
-        self.restaurantTitle.alpha = 0.0
-        self.restaurantStars.alpha = 0.0
-        self.restaurantCategory.alpha = 0.0
-        self.restaurantPriceRange.alpha = 0.0
-        self.restaurantLocation.alpha = 0.0
-        self.restaurantPhone.alpha = 0.0
-        self.restaurantTimings.alpha = 0.0
-        self.restaurantTransactions.alpha = 0.0
-        self.vibrancyPhone.alpha = 0.0
-        self.vibrancyLocation.alpha = 0.0
-        self.vibrancyTimings.alpha = 0.0
-        self.vibrancyTransactions.alpha = 0.0
-        self.virbrantIconView.alpha = 0.0
-        
-        self.restaurantMap.alpha = 0.0
-        self.restaurantPhone.alpha = 0.0
-        self.restaurantBrowser.alpha = 0.0
-        
-        UIView.animate(withDuration: 0.5, animations: {
-            
-            self.blurView.effect = UIBlurEffect(style: .dark)
-            /*
-            self.restaurantTitle.alpha = 1.0
-            self.restaurantStars.alpha = 1.0
-            self.restaurantCategory.alpha = 1.0
-            self.restaurantPriceRange.alpha = 1.0
-            self.restaurantLocation.alpha = 1.0
-            self.restaurantPhone.alpha = 1.0
-            self.restaurantTimings.alpha = 1.0
-            self.restaurantTransactions.alpha = 1.0
-            self.vibrancyPhone.alpha = 1.0
-            self.vibrancyLocation.alpha = 1.0
-            self.vibrancyTimings.alpha = 1.0
-            self.vibrancyTransactions.alpha = 1.0
-            self.virbrantIconView.alpha = 1.0
-            
-            self.restaurantMap.alpha = 1.0
-            self.restaurantPhone.alpha = 1.0
-            self.restaurantBrowser.alpha = 1.0
-            */
- 
-        }) { (success) in
-            
-            
-            
-        }
- 
-        */
+        resturantPhone.addTarget(self, action: #selector(self.callBusiness), for: UIControlEvents.touchUpInside)
+        restaurantMap.addTarget(self, action: #selector(self.openMaps), for: UIControlEvents.touchUpInside)
+        restaurantBrowser.addTarget(self, action: #selector(self.openWebsite), for: UIControlEvents.touchUpInside)
         
     }
     
@@ -365,6 +318,162 @@ class FavouritesDetailTableViewController: UITableViewController {
                 }
                 
                 completionHandler(restaurantHoursEmbedded)
+            }
+            
+        }
+        
+    }
+    
+    func openWebsite() {
+        
+        if defaults.object(forKey: "defaultBrowser") == nil {
+            
+            if let url = URL(string: restaurant.website) {
+                
+                UIApplication.shared.open(url, options: [:], completionHandler: { (success) in
+                    
+                    if !success {
+                        
+                        let alert = Alert()
+                        alert.msg(title: "Failed To Open Safari", message: "There's been a slight complication. This shouldn't be happening.")
+                        
+                    }
+                    
+                })
+                
+            }
+            
+        } else if let browserName = defaults.object(forKey: "defaultBrowser") as? String {
+            
+            if browserName == "Safari" {
+                
+                if let url = URL(string: restaurant.website) {
+                    
+                    UIApplication.shared.open(url, options: [:], completionHandler: { (success) in
+                        
+                        if !success {
+                            
+                            let alert = Alert()
+                            alert.msg(title: "Failed To Open Safari", message: "There's been a slight complication. This shouldn't be happening.")
+                            
+                        }
+                        
+                    })
+                    
+                }
+                
+            } else if browserName == "Google Chrome" {
+                
+                if let url = URL(string: "googlechromes://\(restaurant.website)") {
+                    
+                    UIApplication.shared.open(url, options: [:], completionHandler: { (success) in
+                        
+                        if !success {
+                            
+                            let alert = Alert()
+                            alert.msg(title: "Failed To Open Google Chrome", message: "There's been a slight complication. Google Chrome isn't installed on your iPhone.")
+                            
+                        }
+                        
+                    })
+                    
+                }
+                
+            }
+            
+        }
+        
+    }
+    
+    func callBusiness() {
+        
+        if let url = URL(string: "tel://\(restaurant.phone)") {
+            UIApplication.shared.open(url, options: [:], completionHandler: { (success) in
+                
+                if !success {
+                    
+                    let alert = Alert()
+                    alert.msg(title: "Failed To Call", message: "There's been a slight complication. The call cannot be made, make sure you are using an iPhone or a compatible device.")
+                }
+                
+            })
+            
+        }
+        
+    }
+    
+    func openMaps() {
+        
+        let string = "\(restaurant.address),\(restaurant.city),\(restaurant.country)"
+        let addressString = string.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)
+        
+        if defaults.object(forKey: "defaultMaps") == nil {
+            
+            if let url = URL(string: "http://maps.apple.com/?address=\(addressString!)") {
+                
+                UIApplication.shared.open(url, options: [:], completionHandler: { (success) in
+                    
+                    if !success {
+                        
+                        let alert = Alert()
+                        alert.msg(title: "Failed To Open Maps", message: "There's been a slight complication. Make sure you have Maps installed on your iPhone.")
+                        
+                    }
+                    
+                })
+            }
+            
+        } else if let appName = defaults.object(forKey: "defaultMaps") as? String {
+            
+            if appName == "Apple Maps" {
+                
+                if let url = URL(string: "http://maps.apple.com/?address=\(addressString!)") {
+                    
+                    UIApplication.shared.open(url, options: [:], completionHandler: { (success) in
+                        
+                        if !success {
+                            
+                            let alert = Alert()
+                            alert.msg(title: "Failed To Open Maps", message: "There's been a slight complication. Make sure you have Maps installed on your iPhone.")
+                        }
+                        
+                    })
+                }
+                
+            } else if appName == "Waze" {
+                
+                if let url = URL(string: "waze://?q=\(addressString!)") {
+                    
+                    UIApplication.shared.open(url, options: [:], completionHandler: { (success) in
+                        
+                        if !success {
+                            
+                            let alert = Alert()
+                            alert.msg(title: "Failed To Open Waze", message: "There's been a slight complication. Waze isn't installed on your iPhone.")
+                            
+                        }
+                        
+                    })
+                    
+                }
+                
+            } else if appName == "Google Maps" {
+                
+                if let url = URL(string: "comgooglemaps://?q=\(addressString!)") {
+                    
+                    UIApplication.shared.open(url, options: [:], completionHandler: { (success) in
+                        
+                        if !success {
+                            
+                            let alert = Alert()
+                            alert.msg(title: "Failed To Open Google Maps", message: "There's been a slight complication. Google Maps isn't installed on your iPhone.")
+                        }
+                        
+                    })
+                    
+                    
+                }
+                
             }
             
         }

@@ -43,13 +43,11 @@ protocol ReviewDelegate {
 
 class RestaurantCard: UIView, UIWebViewDelegate {
     
-    var swipeGesture = UISwipeGestureRecognizer()
+    var tapToMoveGesture = UITapGestureRecognizer()
+    
     var didAnimateView = false
     var didShowReviewView = false
     var originalY: CGFloat = 0
-    var yMin: CGFloat = 0
-    var totalTranslation: CGFloat = 0
-    var yTransToAddTo = CGFloat()
     let defaults = UserDefaults.standard
     var feedbackGenerator: UIImpactFeedbackGenerator?
         
@@ -105,6 +103,7 @@ class RestaurantCard: UIView, UIWebViewDelegate {
             
             feedbackGenerator = UIImpactFeedbackGenerator()
             
+            /* 
             self.reviewCard.layer.cornerRadius = 10.0
             self.reviewCard.layer.shadowColor = UIColor.black.cgColor
             self.reviewCard.layer.shadowPath = UIBezierPath(roundedRect: self.reviewCard.bounds, cornerRadius: 10.0).cgPath
@@ -125,7 +124,8 @@ class RestaurantCard: UIView, UIWebViewDelegate {
             self.reviewCard3.layer.shadowOffset = CGSize(width: 0, height: 4)
             self.reviewCard3.layer.shadowRadius = 10.0
             self.reviewCard3.layer.shadowOpacity = 0.3
-            
+            */
+ 
             /* loadReviews(id: restaurant.id) { (success) in
                                 
                 self.reviewCard.restaurantReview = self.restaurantReviews[0]
@@ -171,7 +171,7 @@ class RestaurantCard: UIView, UIWebViewDelegate {
             tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.showReviewsView))
             tapGesture.numberOfTapsRequired = 1
             
-            restaurantStars.addGestureRecognizer(tapGesture)
+            // restaurantStars.addGestureRecognizer(tapGesture)
             
             if restaurant.priceRange == "" {
                 restaurantPriceRange.text = "No Price Range Available"
@@ -243,14 +243,22 @@ class RestaurantCard: UIView, UIWebViewDelegate {
             
             for transaction in restaurant.transactions {
                 
-                restaurantTransactions.text = restaurantTransactions.text! + "\(transaction.uppercaseFirst) ✓ \n"
+                if transaction == "restaurant_reservation" {
+                    
+                    restaurantTransactions.text = restaurantTransactions.text! + "Restaurant Reservation ✓ \n"
+                    
+                } else {
+                    
+                    restaurantTransactions.text = restaurantTransactions.text! + "\(transaction.uppercaseFirst) ✓ \n"
+                    
+                }
                 
             }
             
             originalY = footerView.bounds.origin.y
             self.footerView.bounds.origin.y -= (self.footerView.frame.height) - (self.vibrancyChevron.frame.height + self.restaurantPriceRange.frame.height + self.restaurantMap.frame.height)
-            swipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(self.moveDown))
-            swipeGesture.direction = UISwipeGestureRecognizerDirection.up
+            self.setNeedsUpdateConstraints()
+            tapToMoveGesture = UITapGestureRecognizer(target: self, action: #selector(self.moveDown))
             
             if restaurant.transactions.isEmpty {
                 
@@ -272,7 +280,7 @@ class RestaurantCard: UIView, UIWebViewDelegate {
             restaurantWebsite.addTarget(self, action: #selector(self.openWebsite), for: .touchUpInside)
             callRestaurant.addTarget(self, action: #selector(self.callBusiness), for: .touchUpInside)
             restaurantMap.addTarget(self, action: #selector(self.openMaps), for: .touchUpInside)
-            footerView.addGestureRecognizer(swipeGesture)
+            footerView.addGestureRecognizer(tapToMoveGesture)
             
         }
         
@@ -543,8 +551,6 @@ class RestaurantCard: UIView, UIWebViewDelegate {
             
             didAnimateView = false
             
-            swipeGesture.direction = UISwipeGestureRecognizerDirection.up
-            
         } else {
             
             let mapsImageName = defaults.object(forKey: "defaultMaps") as! String
@@ -569,8 +575,6 @@ class RestaurantCard: UIView, UIWebViewDelegate {
             self.feedbackGenerator?.impactOccurred()
             
             didAnimateView = true
-            
-            swipeGesture.direction = UISwipeGestureRecognizerDirection.down
             
         }
         
